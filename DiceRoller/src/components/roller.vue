@@ -65,28 +65,26 @@ export default {
     },
     display: function(span){
       //on a D20 make the span red for critical failures and green for critical success
-        for (var i = 0; i < this.times; i++) {
-          if(this.rollObj.orgRoll == 1 && this.rollObj.max == 20){
-            span.append(this.rollObj.modRoll);
-            span.style.color="red";
-            if (this.times > 1) {
-              span.append(",");
-            }
-          }
-          else if(this.rollObj.orgRoll == 20 && this.rollObj.max == 20){
-            span.append(this.rollObj.modRoll);
-            span.style.color="green";
-            if (this.times > 1) {
-              span.append(",");
-            }
-          }
-          else{
-            span.append(this.rollObj.modRoll);
-            if (this.times > 1) {
-              span.append(",");
-            }
-          }
+      if(this.rollObj.orgRoll == 1 && this.rollObj.max == 20){
+        span.append(this.rollObj.modRoll);
+        span.style.color="red";
+        if (this.times > 1) {
+          span.append(",");
         }
+      }
+      else if(this.rollObj.orgRoll == 20 && this.rollObj.max == 20){
+        span.append(this.rollObj.modRoll);
+        span.style.color="green";
+        if (this.times > 1) {
+          span.append(",");
+        }
+      }
+      else{
+        span.append(this.rollObj.modRoll);
+        if (this.times > 1) {
+          span.append(",");
+        }
+      }
     }
   }
 }
