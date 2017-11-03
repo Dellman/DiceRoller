@@ -3,14 +3,14 @@
     <h2>Welcome!</h2>
     <span>{{results}}</span>
     <br />
-    <span><button v-on:click="roll(4)">4</button>
-    <button v-on:click="roll(5)">5</button>
-    <button v-on:click="roll(6)">6</button>
-    <button v-on:click="roll(8)">8</button>
-    <button v-on:click="roll(10)">10</button>
-    <button v-on:click="roll(12)">12</button>
-    <button v-on:click="roll(20)">20</button>
-    <button v-on:click="roll(100)">100</button></span>
+    <span><button v-on:click="roll(4)">D4</button>
+    <button v-on:click="roll(5)">D5</button>
+    <button v-on:click="roll(6)">D6</button>
+    <button v-on:click="roll(8)">D8</button>
+    <button v-on:click="roll(10)">D10</button>
+    <button v-on:click="roll(12)">D12</button>
+    <button v-on:click="roll(20)">D20</button>
+    <button v-on:click="roll(100)">D100</button></span>
     <br />
     <span>Roll(s): <input type="number" v-model="times" min="1"></span>
     <br />
@@ -26,28 +26,34 @@ export default {
     return {
       results: [],
       times: '1',
-      modifier: '0'
+      modifier: '0',
     }
   },
   methods: {
     roll: function(max){
-      // this.results = [];
-      for (var i = 0; i < this.times; i++) {
+      this.results = [];
+      for (let i = 0; i < this.times; i++) {
         this.display(Math.floor(Math.random() * max + 1));
-        // this.results.push(initResult + Math.floor(this.modifier));
       }
-      // return this.results;
     },
     display: function(roll){
-      console.log(roll);
-      return createElement('span', roll);
+      // console.log(roll);
+      // this.results.push(roll + Math.floor(this.modifier));
+      this.storeRolls(roll + Math.floor(this.modifier));
+    },
+    storeRolls: function(roll){
+      rollObject = {};
+      rollObject.roll = roll;
+      rollObject.id = 1;
+      console.log(rollObject);
+
     }
   },
   render: function (createElement){
-    return createElement(
-      'h' + this.level,
-      this.$slots.default
-    )
+    // return createElement(
+    //   'h' + this.level,
+    //   this.$slots.default
+    // )
   }
 }
 </script>
