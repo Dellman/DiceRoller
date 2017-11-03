@@ -38,6 +38,7 @@ export default {
           rollSpan.childNodes[i].remove();
         }
       }
+      console.log(this.rollObj);
     },
     roll: function(max){
       this.emptySpan();
@@ -51,6 +52,7 @@ export default {
       this.rollObj.max = parseInt(max);
       this.rollObj.modRoll = parseInt(roll + Math.floor(this.modifier));
       this.createSpan();
+      console.log(this.rollObj);
     },
     createSpan: function(){
       let rollSpan = document.getElementById('rolls');
