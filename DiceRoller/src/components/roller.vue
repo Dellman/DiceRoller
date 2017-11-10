@@ -12,9 +12,9 @@
     <button v-on:click="roll(20)">D20</button>
     <button v-on:click="roll(100)">D100</button></span>
     <br />
-    <span>Roll(s): <input type="number" v-model="times" min="1"></span>
+    <span>Roll(s): <input type="number" v-model="times" min="1" max="15"></span>
     <br />
-    <span>Modifier: <input type="number" v-model="modifier" min="0"></span>
+    <span>Modifier: <input type="number" v-model="modifier" min="0" max="15"></span>
   </div>
 </template>
 
@@ -31,50 +31,56 @@ export default {
     }
   },
   methods: {
-    emptySpan: function(){
+    emptySpan: function(dice){
+      // console.log(this.rollObj);
       let rollSpan = document.getElementById('rolls');
       if(rollSpan.childNodes.length > 0){
         for (let i = 0; i < rollSpan.childNodes.length; i++) {
           rollSpan.childNodes[i].remove();
         }
       }
-      console.log(this.rollObj);
+      // this.roll(dice);
+      // this.rollObj.modRoll = null;
+      // console.log(this.times);
     },
-    roll: function(max){
+    roll: function(dice){
+      this.emptySpan();
+      this.emptySpan();
+      this.emptySpan();
       this.emptySpan();
       for (let i = 0; i < this.times; i++) {
-        this.storeRolls(Math.floor(Math.random() * max + 1), i, max);
+        this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
       }
     },
-    storeRolls: function(roll, id, max){
+    storeRolls: function(roll, id, dice){
       this.rollObj.orgRoll = parseInt(roll);
       this.rollObj.id = parseInt(id);
-      this.rollObj.max = parseInt(max);
+      this.rollObj.dice = parseInt(dice);
       this.rollObj.modRoll = parseInt(roll + Math.floor(this.modifier));
       this.createSpan();
-      console.log(this.rollObj);
+      // console.log(this.rollObj);
     },
     createSpan: function(){
       let rollSpan = document.getElementById('rolls');
-      for(let i = 0; i < this.times.length; i++){
+      // for(let i = 0; i < this.times.length; i++){
         let span = document.createElement("span");
         span.className="roll-span";
         span.id=this.rollObj.id;
         span.style.padding = ".05em";
         rollSpan.append(span);
         this.display(span);
-      }
+      // }
     },
     display: function(span){
       //on a D20 make the span red for critical failures and green for critical success
-      if(this.rollObj.orgRoll == 1 && this.rollObj.max == 20){
+      if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
         span.append(this.rollObj.modRoll);
         span.style.color="red";
         if (this.times > 1) {
           span.append(",");
         }
       }
-      else if(this.rollObj.orgRoll == 20 && this.rollObj.max == 20){
+      else if(this.rollObj.orgRoll == 20 && this.rollObj.dice == 20){
         span.append(this.rollObj.modRoll);
         span.style.color="green";
         if (this.times > 1) {
@@ -87,6 +93,10 @@ export default {
           span.append(",");
         }
       }
+      this.clearObj();
+    },
+    clearObj: function(){
+      // this.rollObj = null;
     }
   }
 }
