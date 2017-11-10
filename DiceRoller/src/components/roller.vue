@@ -76,24 +76,23 @@ export default {
       if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
         span.append(this.rollObj.modRoll);
         span.style.color="red";
-        if (this.times > 1) {
+        if (this.times > 1 && span.id < this.times - 1) {
           span.append(",");
         }
       }
       else if(this.rollObj.orgRoll == 20 && this.rollObj.dice == 20){
         span.append(this.rollObj.modRoll);
         span.style.color="green";
-        if (this.times > 1) {
+        if (this.times > 1 && span.id < this.times - 1) {
           span.append(",");
         }
       }
       else{
         span.append(this.rollObj.modRoll);
-        if (this.times > 1) {
+        if (this.times > 1 && span.id < this.times - 1) {
           span.append(",");
         }
       }
-      this.clearObj();
     },
     clearObj: function(){
       // this.rollObj = null;
