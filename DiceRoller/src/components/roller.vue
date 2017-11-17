@@ -32,21 +32,18 @@ export default {
   },
   methods: {
     emptySpan: function(dice){
-      // console.log(this.rollObj);
       let rollSpan = document.getElementById('rolls');
       if(rollSpan.childNodes.length > 0){
         for (let i = 0; i < rollSpan.childNodes.length; i++) {
           rollSpan.childNodes[i].remove();
         }
+        return this.emptySpan();
       }
-      // this.roll(dice);
-      // this.rollObj.modRoll = null;
-      // console.log(this.times);
+      // if(rollSpan.childNodes.length > 0){
+      //   this.emptySpan();
+      // }
     },
     roll: function(dice){
-      this.emptySpan();
-      this.emptySpan();
-      this.emptySpan();
       this.emptySpan();
       for (let i = 0; i < this.times; i++) {
         this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
@@ -93,9 +90,6 @@ export default {
           span.append(",");
         }
       }
-    },
-    clearObj: function(){
-      // this.rollObj = null;
     }
   }
 }
