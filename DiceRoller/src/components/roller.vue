@@ -12,9 +12,9 @@
     <button v-on:click="roll(20)">D20</button>
     <button v-on:click="roll(100)">D100</button></span>
     <br />
-    <span>Roll(s): <input type="number" v-model="times" min="1" max="15"></span>
+    <label>Roll(s): <input type="number" v-model="times" min="1" max="15"></label>
     <br />
-    <span>Modifier: <input type="number" v-model="modifier" min="0" max="15"></span>
+    <label>Modifier: <input type="number" v-model="modifier" min="0" max="15"></label>
   </div>
 </template>
 
@@ -26,8 +26,8 @@ export default {
     return {
       // results: [],
       rollObj: {},
-      times: '1',
-      modifier: '0',
+      times: 1,
+      modifier: 0,
     }
   },
   methods: {
@@ -38,6 +38,7 @@ export default {
           rollSpan.childNodes[i].remove();
         }
         return this.emptySpan();
+        // I am not sure if there is a better/more proper way to do this
       }
       // if(rollSpan.childNodes.length > 0){
       //   this.emptySpan();
@@ -59,14 +60,12 @@ export default {
     },
     createSpan: function(){
       let rollSpan = document.getElementById('rolls');
-      // for(let i = 0; i < this.times.length; i++){
-        let span = document.createElement("span");
-        span.className="roll-span";
-        span.id=this.rollObj.id;
-        span.style.padding = ".05em";
-        rollSpan.append(span);
-        this.display(span);
-      // }
+      let span = document.createElement("span");
+      span.className="roll-span";
+      span.id=this.rollObj.id;
+      span.style.padding = ".05em";
+      rollSpan.append(span);
+      this.display(span);
     },
     display: function(span){
       //on a D20 make the span red for critical failures and green for critical success
@@ -96,7 +95,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<!-- <style scoped>
 h1, h2 {
   font-weight: normal;
 }
@@ -114,4 +113,4 @@ a {
 span{
   display: block;
 }
-</style>
+</style> -->

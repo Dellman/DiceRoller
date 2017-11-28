@@ -1,0 +1,246 @@
+{
+  "races": [
+    {
+        "name": "Dwarf",
+        "racialMods": [
+          {
+            "str": 0,
+            "dex": 0,
+            "con": 2,
+            "int": 0,
+            "wis": 0,
+            "cha": 0
+          }
+        ],
+        "subRaces": [
+        {
+          "name": "Hill Dwarf",
+          "racialMods": [
+            {
+              "str": 0,
+              "dex": 0,
+              "con": 0,
+              "int": 0,
+              "wis": 1,
+              "cha": 0
+            }
+          ]
+        },
+        {
+          "name": "Mountain Dwarf",
+          "racialMods": [
+            {
+              "str": 2,
+              "dex": 0,
+              "con": 0,
+              "int": 0,
+              "wis": 0,
+              "cha": 0
+            }
+          ]
+        }
+        ]
+    },
+    {
+        "name": "Elf",
+        "racialMods": [
+          {
+            "str": 0,
+            "dex": 2,
+            "con": 0,
+            "int": 0,
+            "wis": 0,
+            "cha": 0
+          }
+        ],
+        "subRaces": [
+        {
+          "name": "High Elf",
+          "racialMods": [
+            {
+              "str": 0,
+              "dex": 2,
+              "con": 0,
+              "int": 1,
+              "wis": 0,
+              "cha": 0
+            }
+          ]
+        },
+        {
+          "name": "Wood Elf",
+          "racialMods": [
+            {
+              "str": 0,
+              "dex": 2,
+              "con": 0,
+              "int": 0,
+              "wis": 1,
+              "cha": 0
+            }
+          ]
+        }
+        {
+          "name": "Dark Elf (Drow)",
+          "racialMods": [
+            {
+              "str": 0,
+              "dex": 2,
+              "con": 0,
+              "int": 0,
+              "wis": 1,
+              "cha": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+        "name": "Halfling",
+        "racialMods": [
+          {
+            "str": 0,
+            "dex": 2,
+            "con": 0,
+            "int": 0,
+            "wis": 0,
+            "cha": 0
+          }
+        ],
+        "subRaces": [
+        {
+          "name": "Lightfoot",
+          "racialMods": [
+            {
+              "str": 0,
+              "dex": 2,
+              "con": 0,
+              "int": 0,
+              "wis": 0,
+              "cha": 1
+            }
+          ]
+        },
+        {
+          "name": "Stout",
+          "racialMods": [
+            {
+              "str": 0,
+              "dex": 2,
+              "con": 1,
+              "int": 0,
+              "wis": 0,
+              "cha": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Human",
+      "racialMods": [
+        {
+          "str": 1,
+          "dex": 1,
+          "con": 1,
+          "int": 1,
+          "wis": 1,
+          "cha": 1
+        }
+      ]
+    },
+    {
+      "name": "Dragonborn",
+      "racialMods": [
+        {
+          "str": 2,
+          "dex": 0,
+          "con": 0,
+          "int": 0,
+          "wis": 0,
+          "cha": 1
+        }
+      ]
+    },
+    {
+      "name": "Gnome",
+      "racialMods": [
+        {
+          "str": 0,
+          "dex": 0,
+          "con": 0,
+          "int": 2,
+          "wis": 0,
+          "cha": 0
+        }
+        ],
+        "subRaces": [
+        {
+          "name": "Forest Gnome",
+          "racialMods": [
+            {
+              "str": 0,
+              "dex": 1,
+              "con": 0,
+              "int": 2,
+              "wis": 0,
+              "cha": 0
+            }
+          ]
+        },
+        {
+          "name": "Rock Gnome",
+          "racialMods": [
+            {
+              "str": 0,
+              "dex": 2,
+              "con": 1,
+              "int": 0,
+              "wis": 0,
+              "cha": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Half-Elf",
+      "racialMods": [
+        {
+          "str": 0,
+          "dex": 0,
+          "con": 0,
+          "int": 0,
+          "wis": 0,
+          "cha": 2
+        }
+      ]
+    },
+    {
+      "name": "Half-Orc",
+      "racialMods": [
+        {
+          "str": 2,
+          "dex": 0,
+          "con": 1,
+          "int": 0,
+          "wis": 0,
+          "cha": 0
+        }
+      ],
+    },
+    {
+      "name": "Tiefling",
+      "racialMods": [
+        {
+          "str": 0,
+          "dex": 0,
+          "con": 0,
+          "int": 1,
+          "wis": 0,
+          "cha": 2
+        }
+      ]
+    },
+  ]
+}
