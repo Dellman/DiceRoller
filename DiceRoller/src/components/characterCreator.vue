@@ -103,6 +103,7 @@
       diceRoll: function(){
         // this.emptyRolls();
         this.emptyTable();
+        this.sums.length = 0;
         let scopedRollArray = [];
         // Figure out why 8 and not 6
         for (let i = 0; i < 8; i++) {
