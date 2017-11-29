@@ -19,26 +19,26 @@
         <th>Stat 5</th>
         <th>Stat 6</th>
       </tr>
-      <tr>
-        <th id="table-rolls">Dice Results</th>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
+      <tr id="table-rolls">
+        <th>Dice Results</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
       </tr>
-      <tr>
-        <th id="table-sum">Stat number (sum)</th>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
+      <tr id="table-sum">
+        <th>Stat number (sum)</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
       </tr>
-      <tr>
-        <th id="table-mod">Modifier</th>
+      <tr id="table-mod">
+        <th>Modifier</th>
         <td>1</td>
         <td>2</td>
         <td>3</td>
@@ -56,48 +56,74 @@
     data(){
       return{
         times: 4,
-        rollsArray: [],
+        rolls: [],
         sums: [],
         modifiers: []
       }
     },
     methods: {
-      emptyRolls: function(){
-        this.sums.length = 0;
-        let resultRollSpan = document.getElementById('statRolls');
-        if(resultRollSpan.childNodes.length > 0){
-          for (let i = 0; i < resultRollSpan.childNodes.length; i++) {
-            resultRollSpan.childNodes[i].remove();
-          }
+      // emptyRolls: function(){
+      //   this.sums.length = 0;
+      //   let resultRollSpan = document.getElementById('statRolls');
+      //   if(resultRollSpan.childNodes.length > 0){
+      //     for (let i = 0; i < resultRollSpan.childNodes.length; i++) {
+      //       resultRollSpan.childNodes[i].remove();
+      //     }
+      //   }
+      // },
+      emptyTable: function(){
+        let tableSum = document.getElementById('table-sum');
+        for (let i = 1; i < tableSum.children.length; i++) {
+          tableSum.children[i].textContent = "";
+          console.log(tableSum.children[i]);
         }
       },
-      displaySums: function(){
-        let resultRollSpan = document.getElementById('statRolls');
-        resultRollSpan.append(this.sums);
-      },
+      // displaySums: function(){
+      //   let resultRollSpan = document.getElementById('statRolls');
+      //   resultRollSpan.append(this.sums);
+      // },
       displayResults: function(){
-        let tableRolls = document.getElementById('table-rolls');
+        // let tableRolls = document.getElementById('table-rolls');
+        // for (var i = 1; i < tableRolls.children.length; i++) {
+        //   tableRolls.children[i].append( this.rolls);
+        // }
         let tableSum = document.getElementById('table-sum');
+        for (let i = 1; i < tableSum.children.length; i++) {
+          tableSum.children[i].append(this.sums[i + 1]);
+        }
         let tableMod = document.getElementById('tableMod');
       },
+      displayRolls: function(rolls){
+        let tableRolls = document.getElementById('table-rolls');
+        for (var i = 1; i < tableRolls.children.length; i++) {
+          // console.log(rolls);
+          // tableRolls.children[1].append(rolls);
+        }
+      },
       diceRoll: function(){
-        this.emptyRolls();
+        // this.emptyRolls();
+        this.emptyTable();
+        let scopedRollArray = [];
         for (let i = 0; i < 6; i++) {
           for (let j = 0; j < this.times; j++) {
             let roll = Math.floor(Math.random() * 6 + 1);
-            this.rollsArray.push(roll);
+            scopedRollArray.push(roll);
+            this.rolls = scopedRollArray;
+            // this.rolls.push(roll);
           }
           this.diceSum();
         }
-        this.displaySums();
+        this.displayRolls(scopedRollArray);
+        // this.displaySums();
+        this.displayResults();
       },
       diceSum: function(){
         let sum = 0;
         for (let i = 0; i < 3; i++) {
-          let highest = Math.max(...this.rollsArray);
-          let spot = this.rollsArray.indexOf(highest);
+          let highest = Math.max(...this.rolls);
+          let spot = this.rolls.indexOf(highest);
           sum += highest;
-          this.rollsArray.splice(spot, 1);
+          this.rolls.splice(spot, 1);
         }
         this.sums.push(sum);
         this.findMods(sum);
