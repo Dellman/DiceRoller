@@ -39,12 +39,12 @@
       </tr>
       <tr id="table-mod">
         <th>Modifier</th>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
       </tr>
     </table>
   </div>
@@ -75,7 +75,10 @@
         let tableSum = document.getElementById('table-sum');
         for (let i = 1; i < tableSum.children.length; i++) {
           tableSum.children[i].textContent = "";
-          // console.log(tableSum.children[i]);
+        }
+        let tableMod = document.getElementById('table-mod');
+        for (let i = 1; i < tableMod.children.length; i++) {
+          tableMod.children[i].textContent = "";
         }
       },
       // displaySums: function(){
@@ -91,7 +94,10 @@
         for (let i = 1; i < tableSum.children.length; i++) {
           tableSum.children[i].append(this.sums[i + 1]);
         }
-        let tableMod = document.getElementById('tableMod');
+        let tableMod = document.getElementById('table-mod');
+        for (let i = 1; i < tableMod.children.length; i++) {
+          tableMod.children[i].append(this.modifiers[i + 1]);
+        }
       },
       displayRolls: function(rolls){
         let tableRolls = document.getElementById('table-rolls');
@@ -104,18 +110,22 @@
         // this.emptyRolls();
         this.emptyTable();
         this.sums.length = 0;
-        let scopedRollArray = [];
+        // let scopedRollArray = [];
+        this.rollsObj.rolls = [];
         // Figure out why 8 and not 6
         for (let i = 0; i < 8; i++) {
           for (let j = 0; j < this.times; j++) {
             let roll = Math.floor(Math.random() * 6 + 1);
-            scopedRollArray.push(roll);
-            this.rolls = scopedRollArray;
-            // this.rolls.push(roll);
+            // scopedRollArray.push(roll);
+            // this.rolls = scopedRollArray;
+            this.rolls.push(roll);
+            console.log(roll);
           }
+          console.log(this.rollsObj.rolls);
+          console.log(this.rolls);
           this.diceSum();
         }
-        this.displayRolls(scopedRollArray);
+        // this.displayRolls(scopedRollArray);
         // this.displaySums();
         this.displayResults();
       },
@@ -128,14 +138,15 @@
           this.rolls.splice(spot, 1);
         }
         this.sums.push(sum);
-        this.findMods(sum);
+        this.findMods();
       },
-      findMods: function(sum){
-        let mod = Math.floor((sum - 10) / 2);
-        if(mod > 0){
-          mod = "+" + mod;
+      findMods: function(){
+        this.modifiers.length = 0;
+        let mod = 0;
+        for (let i = 0; i < this.sums.length; i++) {
+          mod = Math.floor((this.sums[i] - 10)/2);
+          this.modifiers.push(mod);
         }
-        this.modifiers.push(mod);
       }
     },
   }
