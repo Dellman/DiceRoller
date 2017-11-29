@@ -75,7 +75,7 @@
         let tableSum = document.getElementById('table-sum');
         for (let i = 1; i < tableSum.children.length; i++) {
           tableSum.children[i].textContent = "";
-          console.log(tableSum.children[i]);
+          // console.log(tableSum.children[i]);
         }
       },
       // displaySums: function(){
@@ -104,7 +104,8 @@
         // this.emptyRolls();
         this.emptyTable();
         let scopedRollArray = [];
-        for (let i = 0; i < 6; i++) {
+        // Figure out why 8 and not 6
+        for (let i = 0; i < 8; i++) {
           for (let j = 0; j < this.times; j++) {
             let roll = Math.floor(Math.random() * 6 + 1);
             scopedRollArray.push(roll);
