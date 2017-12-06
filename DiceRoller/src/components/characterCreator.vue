@@ -109,13 +109,9 @@
         }
       },
       diceRoll: function(){
-        // this.emptyRolls();
         this.emptyTable();
         this.sums.length = 0;
-        // let scopedRollArray = [];
-        // this.rollsObj.rolls = [];
-        // Figure out why 8 and not 6
-        // for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
           let rollObj = {
             rolls: [],
             sum: 0,
@@ -124,20 +120,17 @@
           for (let j = 0; j < this.times; j++) {
             let roll = Math.floor(Math.random() * 6 + 1);
             rollObj.rolls.push(roll);
-            // console.log(roll);
-            // scopedRollArray.push(roll);
-            // this.rolls = scopedRollArray;
             this.rolls.push(roll);
-            // console.log(roll);
           }
-          // this.rollObj.rolls = this.rolls;
-          console.log(rollObj.rolls);
           this.rollObjs.push(rollObj);
-          console.log(this.rollObjs);
+
           // console.log(this.rollsObj.rolls);
           // console.log(this.rolls);
           this.diceSum();
-        // }
+        }
+        for (var i = 0; i < this.rollObjs.length; i++) {
+          console.log(this.rollObjs[i].rolls);
+        }
         // this.displayRolls(scopedRollArray);
         // this.displaySums();
         this.displayResults();
