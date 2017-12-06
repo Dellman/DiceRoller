@@ -58,7 +58,9 @@
         times: 4,
         rolls: [],
         sums: [],
-        modifiers: []
+        modifiers: [],
+        // rollObj: {},
+        rollObjs: []
       }
     },
     methods: {
@@ -111,20 +113,31 @@
         this.emptyTable();
         this.sums.length = 0;
         // let scopedRollArray = [];
-        this.rollsObj.rolls = [];
+        // this.rollsObj.rolls = [];
         // Figure out why 8 and not 6
-        for (let i = 0; i < 8; i++) {
+        // for (let i = 0; i < 6; i++) {
+          let rollObj = {
+            rolls: [],
+            sum: 0,
+            modifier: 0
+          }
           for (let j = 0; j < this.times; j++) {
             let roll = Math.floor(Math.random() * 6 + 1);
+            rollObj.rolls.push(roll);
+            // console.log(roll);
             // scopedRollArray.push(roll);
             // this.rolls = scopedRollArray;
             this.rolls.push(roll);
-            console.log(roll);
+            // console.log(roll);
           }
-          console.log(this.rollsObj.rolls);
-          console.log(this.rolls);
+          // this.rollObj.rolls = this.rolls;
+          console.log(rollObj.rolls);
+          this.rollObjs.push(rollObj);
+          console.log(this.rollObjs);
+          // console.log(this.rollsObj.rolls);
+          // console.log(this.rolls);
           this.diceSum();
-        }
+        // }
         // this.displayRolls(scopedRollArray);
         // this.displaySums();
         this.displayResults();
