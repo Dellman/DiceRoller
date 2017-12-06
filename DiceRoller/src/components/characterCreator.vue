@@ -107,7 +107,7 @@
       },
       diceRoll: function(){
         this.emptyTable();
-        this.sums.length = 0;
+        this.rollObjs.length = 0;
         for (let i = 0; i < 6; i++) {
           let rollObj = {
             rolls: [],
@@ -117,7 +117,7 @@
           for (let j = 0; j < this.times; j++) {
             let roll = Math.floor(Math.random() * 6 + 1);
             rollObj.rolls.push(roll);
-            this.rolls.push(roll);
+            // this.rolls.push(roll);
           }
           this.rollObjs.push(rollObj);
         }
@@ -137,18 +137,14 @@
             this.rollObjs[i].sum = sum;
           }
         }
-        for (var i = 0; i < this.rollObjs.length; i++) {
-          console.log(this.rollObjs[i].rolls);
-          console.log(this.rollObjs[i].sum);
-        }
-        // this.findMods();
+        this.findMods();
       },
       findMods: function(){
-        this.modifiers.length = 0;
+        // this.modifiers.length = 0;
         let mod = 0;
-        for (let i = 0; i < this.sums.length; i++) {
-          mod = Math.floor((this.sums[i] - 10)/2);
-          this.modifiers.push(mod);
+        for (let i = 0; i < this.rollObjs.length; i++) {
+          mod = Math.floor((this.rollObjs[i].sum - 10)/2);
+          this.rollObjs[i].modifier = mod;
         }
       }
     },
