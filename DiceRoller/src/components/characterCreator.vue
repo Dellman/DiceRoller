@@ -59,7 +59,6 @@
         rolls: [],
         sums: [],
         modifiers: [],
-        // rollObj: {},
         rollObjs: []
       }
     },
@@ -104,8 +103,6 @@
       displayRolls: function(rolls){
         let tableRolls = document.getElementById('table-rolls');
         for (var i = 1; i < tableRolls.children.length; i++) {
-          // console.log(rolls);
-          // tableRolls.children[1].append(rolls);
         }
       },
       diceRoll: function(){
@@ -123,27 +120,33 @@
             this.rolls.push(roll);
           }
           this.rollObjs.push(rollObj);
-
-          // console.log(this.rollsObj.rolls);
-          // console.log(this.rolls);
-          this.diceSum();
         }
-        for (var i = 0; i < this.rollObjs.length; i++) {
-          console.log(this.rollObjs[i].rolls);
-        }
-        // this.displayRolls(scopedRollArray);
-        // this.displaySums();
+        // for (var i = 0; i < this.rollObjs.length; i++) {
+        //   console.log(this.rollObjs[i].rolls);
+        // }
+        this.diceSum();
         this.displayResults();
       },
       diceSum: function(){
-        let sum = 0;
-        for (let i = 0; i < 3; i++) {
-          let highest = Math.max(...this.rolls);
-          let spot = this.rolls.indexOf(highest);
-          sum += highest;
-          this.rolls.splice(spot, 1);
+        for (let i = 0; i < this.rollObjs.length; i++) {
+          let sum = 0;
+          let tempRolls = this.rollObjs[i].rolls;
+          for (let j = 0; j < 3; j++) {
+            let highest = Math.max(...tempRolls);
+            let spot = tempRolls.indexOf(highest);
+            sum += highest;
+            tempRolls.splice(spot, 1);
+            // console.log(tempRolls);
+            console.log(this.rollObjs[i].rolls);
+            this.rollObjs[i].sum = sum;
+          }
         }
-        this.sums.push(sum);
+        // for (var i = 0; i < this.rollObjs.length; i++) {
+        //   console.log(this.rollObjs[i].rolls);
+        //   console.log(this.rollObjs[i].sum);
+        // }
+        // console.log(this.rollObjs.length);
+        // console.log(this.rollObjs[0].sum);
         this.findMods();
       },
       findMods: function(){
