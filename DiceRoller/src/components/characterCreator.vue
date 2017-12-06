@@ -121,33 +121,27 @@
           }
           this.rollObjs.push(rollObj);
         }
-        // for (var i = 0; i < this.rollObjs.length; i++) {
-        //   console.log(this.rollObjs[i].rolls);
-        // }
         this.diceSum();
         this.displayResults();
       },
       diceSum: function(){
         for (let i = 0; i < this.rollObjs.length; i++) {
           let sum = 0;
-          let tempRolls = this.rollObjs[i].rolls;
+          let tempRolls = [];
+          tempRolls = [...this.rollObjs[i].rolls];
           for (let j = 0; j < 3; j++) {
             let highest = Math.max(...tempRolls);
             let spot = tempRolls.indexOf(highest);
             sum += highest;
             tempRolls.splice(spot, 1);
-            // console.log(tempRolls);
-            console.log(this.rollObjs[i].rolls);
             this.rollObjs[i].sum = sum;
           }
         }
-        // for (var i = 0; i < this.rollObjs.length; i++) {
-        //   console.log(this.rollObjs[i].rolls);
-        //   console.log(this.rollObjs[i].sum);
-        // }
-        // console.log(this.rollObjs.length);
-        // console.log(this.rollObjs[0].sum);
-        this.findMods();
+        for (var i = 0; i < this.rollObjs.length; i++) {
+          console.log(this.rollObjs[i].rolls);
+          console.log(this.rollObjs[i].sum);
+        }
+        // this.findMods();
       },
       findMods: function(){
         this.modifiers.length = 0;
