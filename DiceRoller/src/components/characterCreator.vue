@@ -1,10 +1,15 @@
 <template>
   <div>
     <p>Welcome to the character creator! Here you can choose the amount of D6 to roll (if your DM varies from the standard 4d6) and then you can put your rolls in the desired stat. You also have the option to use a point buy system to create your character.</p>
-    <label>D6 Amount: <input type="number" min="1" max="8" v-model="d6Amount"/></label>
-    <label>D6 Modifier: <input type="number" min="0" max="12" v-model="d6Modifier"></label>
+    <button>Standard 4D6</button>
+    <br />
+    <label>D6 Amount: <input type="number" min="1" max="8" v-model="numberOfD6"/></label>
+    <br />
+    <label>Sum Bonus: <input type="number" min="0" max="12" v-model="sumBonus"></label>
+    <br />
+    <label >Amount of Stats: <input type="number" min="1" max="12" v-model="numberOfStats"></label>
     <br/>
-    <button v-on:click="diceRoll()">Sum of the three highest from {{d6Amount}} D6</button>
+    <button v-on:click="diceRoll()">Sum of the three highest from {{numberOfD6}} D6</button>
     <br/>
     <span id="statRolls"></span>
     <table>
@@ -56,8 +61,9 @@
     name: 'Creator',
     data(){
       return{
-        d6Amount: 4,
-        d6Modifier: 0,
+        numberOfD6: 4,
+        sumBonus: 0,
+        numberOfStats: 6,
         rolls: [],
         sums: [],
         modifiers: [],
@@ -97,16 +103,15 @@
       diceRoll: function(){
         this.emptyTable();
         this.rollObjs.length = 0;
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < this.numberOfStats; i++) {
           let rollObj = {
             rolls: [],
             sum: 0,
             modifier: 0
           }
-          for (let j = 0; j < this.d6Amount; j++) {
+          for (let j = 0; j < this.numberOfD6; j++) {
             let roll = Math.floor(Math.random() * 6 + 1);
             rollObj.rolls.push(roll);
-            // this.rolls.push(roll);
           }
           this.rollObjs.push(rollObj);
         }
@@ -115,10 +120,15 @@
       },
       diceSum: function(){
         for (let i = 0; i < this.rollObjs.length; i++) {
-          let sum = 0;
+          let sum = 0 + parseInt(this.sumBonus);
           let tempRolls = [];
           tempRolls = [...this.rollObjs[i].rolls];
-          for (let j = 0; j < 3; j++) {
+          let maxRolls = 3;
+          if (this.numberOfD6 < 3) {
+            maxRolls = this.numberOfD6;
+          }
+          for (let j = 0; j < maxRolls; j++) {
+            console.log(maxRolls);
             let highest = Math.max(...tempRolls);
             let spot = tempRolls.indexOf(highest);
             sum += highest;
@@ -129,7 +139,6 @@
         this.findMods();
       },
       findMods: function(){
-        // this.modifiers.length = 0;
         let mod = 0;
         for (let i = 0; i < this.rollObjs.length; i++) {
           mod = Math.floor((this.rollObjs[i].sum - 10)/2);
