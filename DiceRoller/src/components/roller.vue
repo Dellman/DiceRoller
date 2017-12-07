@@ -10,7 +10,7 @@
     <button v-on:click="roll(20)">D20</button>
     <button v-on:click="roll(100)">D100</button></span>
     <br />
-    <label>Advantage: <input type="checkbox"></label>
+    <!-- <label>Advantage: <input type="checkbox" id="advantage"></label> -->
     <!-- <label>Strength: <input type="radio"></label>
     <label>Dexterity: <input type="radio"></label>
     <label>Constitution: <input type="radio"></label>
@@ -32,7 +32,6 @@ export default {
   name: 'Roller',
   data () {
     return {
-      // results: [],
       rollObj: {},
       times: 1,
       modifier: 0,
@@ -54,6 +53,17 @@ export default {
     },
     roll: function(dice){
       this.emptySpan();
+      let advantage = document.getElementById('advantage');
+      // if (!advantage.checked) {
+      //   for (let i = 0; i < this.times; i++) {
+      //     this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
+      //   }
+      // }
+      // else{
+      //   for (let i = 0; i < this.times * 2; i++) {
+      //     this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
+      //   }
+      // }
       for (let i = 0; i < this.times; i++) {
         this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
       }
