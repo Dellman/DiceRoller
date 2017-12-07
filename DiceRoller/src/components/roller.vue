@@ -1,8 +1,6 @@
 <template>
   <div>
     <h2>Welcome!</h2>
-    <span id="rolls"></span>
-    <br />
     <span><button v-on:click="roll(4)">D4</button>
     <button v-on:click="roll(5)">D5</button>
     <button v-on:click="roll(6)">D6</button>
@@ -12,9 +10,19 @@
     <button v-on:click="roll(20)">D20</button>
     <button v-on:click="roll(100)">D100</button></span>
     <br />
+    <label>Advantage: <input type="checkbox"></label>
+    <!-- <label>Strength: <input type="radio"></label>
+    <label>Dexterity: <input type="radio"></label>
+    <label>Constitution: <input type="radio"></label>
+    <label>Intelligence: <input type="radio"></label>
+    <label>Wisdom: <input type="radio"></label>
+    <label>Charisma: <input type="radio"></label> -->
+    <br />
     <label>Roll(s): <input type="number" v-model="times" min="1" max="15"></label>
     <br />
     <label>Modifier: <input type="number" v-model="modifier" min="0" max="15"></label>
+    <br />
+    <span id="rolls"></span>
   </div>
 </template>
 
