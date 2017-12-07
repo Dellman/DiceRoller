@@ -19,7 +19,7 @@
         <th>Stat 5</th>
         <th>Stat 6</th>
       </tr>
-      <tr id="table-rolls">
+      <!-- <tr id="table-rolls">
         <th>Dice Results</th>
         <td></td>
         <td></td>
@@ -27,7 +27,7 @@
         <td></td>
         <td></td>
         <td></td>
-      </tr>
+      </tr> -->
       <tr id="table-sum">
         <th>Stat number (sum)</th>
         <td></td>
@@ -63,15 +63,6 @@
       }
     },
     methods: {
-      // emptyRolls: function(){
-      //   this.sums.length = 0;
-      //   let resultRollSpan = document.getElementById('statRolls');
-      //   if(resultRollSpan.childNodes.length > 0){
-      //     for (let i = 0; i < resultRollSpan.childNodes.length; i++) {
-      //       resultRollSpan.childNodes[i].remove();
-      //     }
-      //   }
-      // },
       emptyTable: function(){
         let tableSum = document.getElementById('table-sum');
         for (let i = 1; i < tableSum.children.length; i++) {
@@ -82,22 +73,18 @@
           tableMod.children[i].textContent = "";
         }
       },
-      // displaySums: function(){
-      //   let resultRollSpan = document.getElementById('statRolls');
-      //   resultRollSpan.append(this.sums);
-      // },
       displayResults: function(){
         // let tableRolls = document.getElementById('table-rolls');
-        // for (var i = 1; i < tableRolls.children.length; i++) {
-        //   tableRolls.children[i].append( this.rolls);
+        // for (let i = 1; i < tableRolls.children.length; i++) {
+        //   tableRolls.children[i].append(this.rollObjs[i-1].rolls);
         // }
         let tableSum = document.getElementById('table-sum');
         for (let i = 1; i < tableSum.children.length; i++) {
-          tableSum.children[i].append(this.sums[i + 1]);
+          tableSum.children[i].append(this.rollObjs[i - 1].sum);
         }
         let tableMod = document.getElementById('table-mod');
         for (let i = 1; i < tableMod.children.length; i++) {
-          tableMod.children[i].append(this.modifiers[i + 1]);
+          tableMod.children[i].append(this.rollObjs[i - 1].modifier);
         }
       },
       displayRolls: function(rolls){
