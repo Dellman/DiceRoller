@@ -1,9 +1,10 @@
 <template>
   <div>
     <p>Welcome to the character creator! Here you can choose the amount of D6 to roll (if your DM varies from the standard 4d6) and then you can put your rolls in the desired stat. You also have the option to use a point buy system to create your character.</p>
-    <label>D6 Amount: <input type="number" min="3" max="15" v-model="times"/></label>
+    <label>D6 Amount: <input type="number" min="1" max="8" v-model="d6Amount"/></label>
+    <label>D6 Modifier: <input type="number" min="0" max="12" v-model="d6Modifier"></label>
     <br/>
-    <button v-on:click="diceRoll()">Sum of the three highest from {{times}} D6</button>
+    <button v-on:click="diceRoll()">Sum of the three highest from {{d6Amount}} D6</button>
     <br/>
     <span id="statRolls"></span>
     <table>
@@ -55,7 +56,8 @@
     name: 'Creator',
     data(){
       return{
-        times: 4,
+        d6Amount: 4,
+        d6Modifier: 0,
         rolls: [],
         sums: [],
         modifiers: [],
@@ -101,7 +103,7 @@
             sum: 0,
             modifier: 0
           }
-          for (let j = 0; j < this.times; j++) {
+          for (let j = 0; j < this.d6Amount; j++) {
             let roll = Math.floor(Math.random() * 6 + 1);
             rollObj.rolls.push(roll);
             // this.rolls.push(roll);
@@ -144,5 +146,11 @@ p{
   margin: .5em auto;
   text-align: left;
   width: 50%;
+}
+thead{
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  vertical-align: middle;
 }
 </style>
