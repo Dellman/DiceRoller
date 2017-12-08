@@ -87,8 +87,8 @@ export default {
       //on a D20 make the span red for critical failures and green for critical success
       if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
         span.append(this.rollObj.modRoll);
-        span.style.color="red";
         addComma();
+        span.style.color="red";
       }
       else if(this.rollObj.orgRoll == 20 && this.rollObj.dice == 20){
         span.append(this.rollObj.modRoll);
@@ -100,25 +100,43 @@ export default {
         addComma();
       }
 
-      if (advantage.checked) {
+      if (advantage.checked || disadvantage.checked) {
         this.lineThrough();
       }
     },
     lineThrough: function(){
-      let rolls = document.getElementById('rolls');
-      if (rolls.childNodes.length > 1) {
-        for (let i = 0; i < rolls.childNodes.length; i++) {
-          if (parseInt(rolls.childNodes[i].textContent) < parseInt(rolls.childNodes[i + 1].textContent)) {
-            rolls.childNodes[i].style.textDecoration = "line-through";
-          }
-          else if(rolls.childNodes[i + 1] < rolls.childNodes[i]){
-            rolls.childNodes[i + 1].style.textDecoration = "line-through";
-          }
+      let rollsSpanChildren = document.getElementById('rolls').childNodes;
+
+      let rolls = [];
+      for (var i = 0; i < rollsSpanChildren.length; i++) {
+        rolls.push(parseInt(rollsSpanChildren[i].textContent));
       }
-        // for (var j = 0; j < array.length; i++) {
-        //   array[i]
-        // }
+
+
+      const strike = (id) =>{
+        let roll = document.getElementById(id);
+        roll.style.textDecoration = "line-through";
       }
+
+      for (let i = 0; i < rolls.length; i++) {
+        if(rolls[i] < rolls[i + 1]){
+          if (advantage.checked) {
+            strike(i);
+          }
+          else if(disadvantage.checked){
+            strike(i + 1);
+          }
+        }
+        else if(rolls[i] > rolls[i + 1]){
+          if (advantage.checked) {
+            strike(i + 1);
+          }
+          else if(disadvantage.checked){
+            strike(i);
+          }
+        }
+      }
+
     }
   }
 }
