@@ -10,7 +10,7 @@
     <button v-on:click="roll(20)">D20</button>
     <button v-on:click="roll(100)">D100</button></span>
     <br />
-    <!-- <label>Advantage: <input type="checkbox" id="advantage"></label> -->
+    <label>Advantage: <input type="checkbox" id="advantage"></label>
     <!-- <label>Strength: <input type="radio"></label>
     <label>Dexterity: <input type="radio"></label>
     <label>Constitution: <input type="radio"></label>
@@ -53,25 +53,25 @@ export default {
     roll: function(dice){
       this.emptySpan();
       let advantage = document.getElementById('advantage');
-      // if (!advantage.checked) {
-      //   for (let i = 0; i < this.times; i++) {
-      //     this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
-      //   }
-      // }
-      // else{
-      //   for (let i = 0; i < this.times * 2; i++) {
-      //     this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
-      //   }
-      // }
-      for (let i = 0; i < this.times; i++) {
-        this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
+      if (!advantage.checked) {
+        for (let i = 0; i < this.times; i++) {
+          this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
+        }
       }
+      else{
+        for (let i = 0; i < this.times * 2; i++) {
+          this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
+        }
+      }
+      // for (let i = 0; i < this.times; i++) {
+      //   this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
+      // }
     },
     storeRolls: function(roll, id, dice){
       this.rollObj.orgRoll = parseInt(roll);
       this.rollObj.id = parseInt(id);
       this.rollObj.dice = parseInt(dice);
-      this.rollObj.modRoll = parseInt(roll + Math.floor(this.modifier));
+      this.rollObj.modRoll = parseInt(roll + parseInt(this.modifier));
       this.createSpan();
       // console.log(this.rollObj);
     },
@@ -85,27 +85,39 @@ export default {
       this.display(span);
     },
     display: function(span){
+      let advantage = document.getElementById('advantage');
+
+    const addComma = () => {
+        if ((this.times > 1 && span.id < this.times - 1) || advantage.checked) {
+          span.append(",");
+        }
+    }
+
       //on a D20 make the span red for critical failures and green for critical success
       if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
         span.append(this.rollObj.modRoll);
         span.style.color="red";
-        if (this.times > 1 && span.id < this.times - 1) {
-          span.append(",");
-        }
+        addComma();
       }
       else if(this.rollObj.orgRoll == 20 && this.rollObj.dice == 20){
         span.append(this.rollObj.modRoll);
         span.style.color="green";
-        if (this.times > 1 && span.id < this.times - 1) {
-          span.append(",");
-        }
+        addComma();
       }
       else{
         span.append(this.rollObj.modRoll);
-        if (this.times > 1 && span.id < this.times - 1) {
-          span.append(",");
-        }
+        addComma();
+
       }
+
+      let rollsCount = document.getElementById('rolls').childNodes.length;
+      console.log(rollsCount);
+      // if (condition) {
+      //
+      // }
+      let end = document.getElementById('rolls').lastChild;
+      console.log(end);
+      // end.remove();
     }
   }
 }
