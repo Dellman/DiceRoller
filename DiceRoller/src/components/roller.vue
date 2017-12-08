@@ -53,7 +53,6 @@ export default {
     roll: function(dice){
       this.emptySpan();
       let advantage = document.getElementById('advantage');
-      
       const rollDice = (multiplier) =>{
         for (let i = 0; i < this.times * multiplier; i++) {
           this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
@@ -61,6 +60,7 @@ export default {
       }
       !advantage.checked ? rollDice(1) : rollDice(2);
     },
+    // Could move all of this up
     storeRolls: function(roll, id, dice){
       this.rollObj.orgRoll = parseInt(roll);
       this.rollObj.id = parseInt(id);
@@ -79,13 +79,11 @@ export default {
     },
     display: function(span){
       let advantage = document.getElementById('advantage');
-
       const addComma = () => {
           if ((this.times > 1 && span.id < this.times - 1) || (advantage.checked && span.id != this.times * 2 - 1)) {
             span.append(",");
           }
       }
-
       //on a D20 make the span red for critical failures and green for critical success
       if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
         span.append(this.rollObj.modRoll);
@@ -100,6 +98,26 @@ export default {
       else{
         span.append(this.rollObj.modRoll);
         addComma();
+      }
+
+      if (advantage.checked) {
+        this.lineThrough();
+      }
+    },
+    lineThrough: function(){
+      let rolls = document.getElementById('rolls');
+      if (rolls.childNodes.length > 1) {
+        for (let i = 0; i < rolls.childNodes.length; i++) {
+          if (parseInt(rolls.childNodes[i].textContent) < parseInt(rolls.childNodes[i + 1].textContent)) {
+            rolls.childNodes[i].style.textDecoration = "line-through";
+          }
+          else if(rolls.childNodes[i + 1] < rolls.childNodes[i]){
+            rolls.childNodes[i + 1].style.textDecoration = "line-through";
+          }
+      }
+        // for (var j = 0; j < array.length; i++) {
+        //   array[i]
+        // }
       }
     }
   }
