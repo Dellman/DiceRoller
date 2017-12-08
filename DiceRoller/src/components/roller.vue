@@ -88,7 +88,7 @@ export default {
       let advantage = document.getElementById('advantage');
 
     const addComma = () => {
-        if ((this.times > 1 && span.id < this.times - 1) || advantage.checked) {
+        if ((this.times > 1 && span.id < this.times - 1) || (advantage.checked && span.id != this.times * 2 - 1)) {
           span.append(",");
         }
     }
