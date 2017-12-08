@@ -10,7 +10,10 @@
     <button v-on:click="roll(20)">D20</button>
     <button v-on:click="roll(100)">D100</button></span>
     <br />
-    <label>Advantage: <input type="checkbox" id="advantage"></label>
+    <label>Normal: <input type="radio" name="rollType" checked></label>
+    <label>Advantage: <input type="radio" id="advantage" name="rollType"></label>
+    <label>Disadvantage: <input type="radio" id="disadvantage" name="rollType"></label>
+
     <!-- <label>Strength: <input type="radio"></label>
     <label>Dexterity: <input type="radio"></label>
     <label>Constitution: <input type="radio"></label>
@@ -58,7 +61,7 @@ export default {
           this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
         }
       }
-      !advantage.checked ? rollDice(1) : rollDice(2);
+      advantage.checked || disadvantage.checked ? rollDice(2) : rollDice(1);
     },
     // Could move all of this up
     storeRolls: function(roll, id, dice){
@@ -79,8 +82,10 @@ export default {
     },
     display: function(span){
       let advantage = document.getElementById('advantage');
+      let disadvantage = document.getElementById('disadvantage');
+
       const addComma = () => {
-          if ((this.times > 1 && span.id < this.times - 1) || (advantage.checked && span.id != this.times * 2 - 1)) {
+          if ((this.times > 1 && span.id < this.times - 1) || (advantage.checked && span.id != this.times * 2 - 1) || disadvantage.checked && span.id != this.times * 2 - 1) {
             span.append(",");
           }
       }
@@ -112,7 +117,6 @@ export default {
         rolls.push(parseInt(rollsSpanChildren[i].textContent));
       }
 
-
       const strike = (id) =>{
         let roll = document.getElementById(id);
         roll.style.textDecoration = "line-through";
@@ -136,7 +140,6 @@ export default {
           }
         }
       }
-
     }
   }
 }
