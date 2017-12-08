@@ -13,11 +13,8 @@
     <br/>
     <span id="statRolls"></span>
     <table>
-      <thead>
-        Roll Results
-      </thead>
       <tr id="tableNumbers">
-        <th></th>
+        <th>Stats</th>
       </tr>
       <tr id="tableSum">
         <th>Stat number (sum)</th>
@@ -76,6 +73,8 @@
             // else{
             //   this.displayResults();
             // }
+            createdEle.style.border = "1px solid black";
+            createdEle.style.borderCollapse = "collapse";
             parent.append(createdEle);
           }
         }
@@ -136,6 +135,15 @@
 </script>
 
 <style scoped>
+table{
+  margin: 0 auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
 p{
   display: block;
   margin: .5em auto;
