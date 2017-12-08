@@ -53,19 +53,13 @@ export default {
     roll: function(dice){
       this.emptySpan();
       let advantage = document.getElementById('advantage');
-      if (!advantage.checked) {
-        for (let i = 0; i < this.times; i++) {
+      
+      const rollDice = (multiplier) =>{
+        for (let i = 0; i < this.times * multiplier; i++) {
           this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
         }
       }
-      else{
-        for (let i = 0; i < this.times * 2; i++) {
-          this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
-        }
-      }
-      // for (let i = 0; i < this.times; i++) {
-      //   this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
-      // }
+      !advantage.checked ? rollDice(1) : rollDice(2);
     },
     storeRolls: function(roll, id, dice){
       this.rollObj.orgRoll = parseInt(roll);
@@ -73,7 +67,6 @@ export default {
       this.rollObj.dice = parseInt(dice);
       this.rollObj.modRoll = parseInt(roll + parseInt(this.modifier));
       this.createSpan();
-      // console.log(this.rollObj);
     },
     createSpan: function(){
       let rollSpan = document.getElementById('rolls');
@@ -87,11 +80,11 @@ export default {
     display: function(span){
       let advantage = document.getElementById('advantage');
 
-    const addComma = () => {
-        if ((this.times > 1 && span.id < this.times - 1) || (advantage.checked && span.id != this.times * 2 - 1)) {
-          span.append(",");
-        }
-    }
+      const addComma = () => {
+          if ((this.times > 1 && span.id < this.times - 1) || (advantage.checked && span.id != this.times * 2 - 1)) {
+            span.append(",");
+          }
+      }
 
       //on a D20 make the span red for critical failures and green for critical success
       if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
@@ -107,17 +100,7 @@ export default {
       else{
         span.append(this.rollObj.modRoll);
         addComma();
-
       }
-
-      let rollsCount = document.getElementById('rolls').childNodes.length;
-      console.log(rollsCount);
-      // if (condition) {
-      //
-      // }
-      let end = document.getElementById('rolls').lastChild;
-      console.log(end);
-      // end.remove();
     }
   }
 }
