@@ -1,6 +1,13 @@
 <template>
   <div id="app">
     <Roller/>
+    <!-- <rounter-link to="/Roller">
+      Roller
+    </rounter-link>
+    <router-link to="/Creator">
+      Character Creator
+    </router-link>
+    <router-view></router-view> -->
     <Creator/>
   </div>
 </template>
