@@ -11,7 +11,9 @@
     <button v-on:click="roll(100)">D100</button></span>
     <br />
     <label>Normal: <input type="radio" name="rollType" checked></label>
+    <br />
     <label>Advantage: <input type="radio" id="advantage" name="rollType"></label>
+    <br />
     <label>Disadvantage: <input type="radio" id="disadvantage" name="rollType"></label>
 
     <!-- <label>Strength: <input type="radio"></label>
@@ -107,14 +109,12 @@ export default {
         span.append(this.rollObj.modRoll);
         addComma();
       }
-
       if (advantage.checked || disadvantage.checked) {
         this.lineThrough();
       }
     },
     lineThrough: function(){
       let rollsSpanChildren = document.getElementById('rolls').childNodes;
-
       let rolls = [];
       for (var i = 0; i < rollsSpanChildren.length; i++) {
         rolls.push(parseInt(rollsSpanChildren[i].textContent));
@@ -124,8 +124,10 @@ export default {
         let roll = document.getElementById(id);
         roll.style.textDecoration = "line-through";
       }
-
-      for (let i = 0; i < rolls.length; i++) {
+      // check every other value if it is larger than the next value
+      // if not, do a line through that value, otherwise put the line through the next number
+      for (let i = 0; i < rolls.length; i += 2) {
+        console.log(i);
         if(rolls[i] < rolls[i + 1]){
           if (advantage.checked) {
             strike(i);
