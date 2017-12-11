@@ -1,14 +1,6 @@
 <template>
   <div id="app">
-    <Roller/>
-    <!-- <rounter-link to="/Roller">
-      Roller
-    </rounter-link>
-    <router-link to="/Creator">
-      Character Creator
-    </router-link>
-    <router-view></router-view> -->
-    <Creator/>
+  <router-view/>
   </div>
 </template>
 
@@ -19,8 +11,7 @@ import Creator from './components/characterCreator';
 export default {
   name: 'app',
   components: {
-    Roller,
-    Creator
+    Roller, Creator
   }
 }
 </script>

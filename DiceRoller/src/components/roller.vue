@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Welcome!</h2>
+    <h2>Dice Roller</h2>
     <span><button v-on:click="roll(4)">D4</button>
     <button v-on:click="roll(5)">D5</button>
     <button v-on:click="roll(6)">D6</button>
@@ -10,18 +10,19 @@
     <button v-on:click="roll(20)">D20</button>
     <button v-on:click="roll(100)">D100</button></span>
     <br />
-    <label>Normal: <input type="radio" name="rollType" checked></label>
+    <label>Normal: <input type="radio" name="vantages" checked></label>
     <br />
-    <label>Advantage: <input type="radio" id="advantage" name="rollType"></label>
+    <label>Advantage: <input type="radio" id="advantage" name="vantages"></label>
     <br />
-    <label>Disadvantage: <input type="radio" id="disadvantage" name="rollType"></label>
+    <label>Disadvantage: <input type="radio" id="disadvantage" name="vantages"></label>
 
-    <!-- <label>Strength: <input type="radio"></label>
-    <label>Dexterity: <input type="radio"></label>
-    <label>Constitution: <input type="radio"></label>
-    <label>Intelligence: <input type="radio"></label>
-    <label>Wisdom: <input type="radio"></label>
-    <label>Charisma: <input type="radio"></label> -->
+    <!-- <label>Strength: <input type="radio" name="rollType"></label>
+    <label>Dexterity: <input type="radio" name="rollType"></label>
+    <label>Constitution: <input type="radio" name="rollType"></label>
+    <label>Intelligence: <input type="radio" name="rollType"></label>
+    <label>Wisdom: <input type="radio" name="rollType"></label>
+    <label>Charisma: <input type="radio" name="rollType"></label> -->
+
     <br />
     <label>Roll(s): <input type="number" v-model="times" min="1" max="15"></label>
     <br />
@@ -127,7 +128,6 @@ export default {
       // check every other value if it is larger than the next value
       // if not, do a line through that value, otherwise put the line through the next number
       for (let i = 0; i < rolls.length; i += 2) {
-        console.log(i);
         if(rolls[i] < rolls[i + 1]){
           if (advantage.checked) {
             strike(i);
@@ -150,7 +150,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- <style scoped>
 h1, h2 {
   font-weight: normal;

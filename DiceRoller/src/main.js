@@ -3,29 +3,32 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
+import Roller from './components/roller';
+import Creator from './components/characterCreator';
+
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 
-const Roller = { template: '<div>Roller</div>' }
-const Creator = { template: '<div>Creator</div>' }
-
-const routes = [
-  {path: '/#', component: Roller},
-  {path: '/Creator', component: Creator}
-]
-
 const router = new VueRouter({
-  routes
-});
+  mode: 'history',
+  base: __dirname,
+  routes: [
+    {path: '', component: Roller},
+    {path: '/creator', component: Creator}
+  ]
+})
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  template: '<App/>',
-  components: { App }
-})
-
-// const app = new Vue({
-//   router
-// }).$mount('#app')
+  router,
+  template:
+    `<div id="app">
+      <ul>
+        <li><router-link to="/">Roller</router-link></li>
+        <li><router-link to="/Creator">Character Creator</router-link></li>
+      </ul>
+      <router-view></router-view>
+    </div>`
+  //render: h => h(App)
+}).$mount('#app')
