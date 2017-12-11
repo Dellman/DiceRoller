@@ -83,6 +83,7 @@ export default {
     display: function(span){
       let advantage = document.getElementById('advantage');
       let disadvantage = document.getElementById('disadvantage');
+      let colorSpan = document.createElement('span');
 
       const addComma = () => {
           if ((this.times > 1 && span.id < this.times - 1) || (advantage.checked && span.id != this.times * 2 - 1) || disadvantage.checked && span.id != this.times * 2 - 1) {
@@ -91,13 +92,15 @@ export default {
       }
       //on a D20 make the span red for critical failures and green for critical success
       if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
-        span.append(this.rollObj.modRoll);
+        colorSpan.style.color = "red";
+        colorSpan.append(this.rollObj.modRoll);
+        span.append(colorSpan);
         addComma();
-        span.style.color="red";
       }
       else if(this.rollObj.orgRoll == 20 && this.rollObj.dice == 20){
-        span.append(this.rollObj.modRoll);
-        span.style.color="green";
+        colorSpan.style.color = "green";
+        colorSpan.append(this.rollObj.modRoll);
+        span.append(colorSpan);
         addComma();
       }
       else{
