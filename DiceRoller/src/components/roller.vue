@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>Dice Roller</h2>
+    <h1>Dice Roller</h1>
+    <p>Welcome to the dice roller! Here you can roll dice for whatever reason! Rolling on advantage means rolling twice and taking the higher value, while disadvantage means taking the lower value (the ignored value will have a strike-through). You can also roll multiple times by changing the roll number, and the modifier will be added to the original roll. A green number means a critical success when using the D20, while a red means a ciritcal failure. If you are looking to use this to simply create a character, check the <router-link to="/Creator">character creator page!</router-link></p>
     <span><button v-on:click="roll(4)">D4</button>
     <button v-on:click="roll(5)">D5</button>
     <button v-on:click="roll(6)">D6</button>
@@ -26,7 +27,7 @@
     <br />
     <label>Roll(s): <input type="number" v-model="times" min="1" max="15"></label>
     <br />
-    <label>Modifier: <input type="number" v-model="modifier" min="0" max="15"></label>
+    <label>Modifier: <input type="number" v-model="modifier" min="-20" max="20"></label>
     <br />
     <span id="rolls"></span>
   </div>
@@ -150,7 +151,7 @@ export default {
 }
 </script>
 
-<!-- <style scoped>
+<style scoped>
 h1, h2 {
   font-weight: normal;
 }
@@ -168,4 +169,4 @@ a {
 span{
   display: block;
 }
-</style> -->
+</style>

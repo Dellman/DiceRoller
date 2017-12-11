@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import App from './App'
 import Roller from './components/roller';
 import Creator from './components/characterCreator';
+import PointBuy from './components/pointBuy'
 
 
 Vue.config.productionTip = false
@@ -15,7 +16,8 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     {path: '', component: Roller},
-    {path: '/creator', component: Creator}
+    {path: '/creator', component: Creator},
+    {path: '/pointbuy', component: PointBuy}
   ]
 })
 
@@ -26,7 +28,8 @@ new Vue({
     `<div id="app">
       <ul>
         <li><router-link to="/">Roller</router-link></li>
-        <li><router-link to="/Creator">Character Creator</router-link></li>
+        <li><router-link to="/creator">Character Creator</router-link></li>
+        <li><router-link to="/pointbuy">Point Buy</router-link></li>
       </ul>
       <router-view></router-view>
     </div>`

@@ -1,20 +1,21 @@
 <template>
   <div>
-    <p>Welcome to the character creator! Here you can choose how many D6 to roll, any additions to the sum (if you are doing a 2d6 + 6), and how many stats to roll. The sum will always be the highest three numbers (or less if you use less than three dice) and the "bonus" will be added at the end. The defaults are set up for the standard 4d6.</p>
+    <h1>Character Creator</h1>
+    <p>Welcome to the character creator! Here you can choose how many D6 to roll, any additions to the sum (if you are doing a 2d6 + 6), and how many stats to roll. The sum will always be the highest three numbers (or less if you use less than three dice) and the "bonus" will be added at the end. The defaults are set up for the common 4d6 drop the lowest.</p>
     <!-- <button>Standard 4D6</button> -->
     <br />
-    <label>D6 Amount: <input type="number" min="1" max="8" v-model="amountOfD6"/></label>
+    <label>D6 Amount: <input type="number" min=1 max=8 v-model="amountOfD6"/></label>
     <br />
-    <label>Sum Bonus: <input type="number" min="0" max="12" v-model="sumBonus"></label>
+    <label>Sum Bonus: <input type="number" min=0 max=12 v-model="sumBonus"></label>
     <br />
-    <label >Amount of Stats: <input type="number" min="1" max="12" v-model="amountOfStats"></label>
+    <label >Amount of Stats: <input type="number" min=1 max=12 v-model="amountOfStats"></label>
     <br/>
     <button v-on:click="diceRoll()">Roll!</button>
     <br/>
     <span id="statRolls"></span>
     <table>
       <tr id="tableNumbers">
-        <th>Stats</th>
+        <th class="empty"></th>
       </tr>
       <tr id="tableSum">
         <th>Stat number (sum)</th>
