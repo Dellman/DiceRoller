@@ -1,9 +1,9 @@
 <template>
   <div>
       <h2>Point Buy System</h2>
-      <label>Available Points:<input type="number" v-model="totalPoints" v-on:change="setRemainingPoints()"></label>
+      <label>Available Points:<input type="number" v-model="totalPoints" v-on:change="setMaxRemainingPoints(totalPoints)"></label>
       <!-- Remaining Points: <input type="text" readonly v-model="remainingPoints"> -->
-      Remaining Points: <input type="text" readonly id="remainingPoints" v-model="remainingPoints.remainingPoints">
+      Remaining Points: <input type="text" readonly id="remainingPoints" v-model="remainingPoints.remaining">
       <table>
         <tr>
           <th class="empty"></th>
@@ -19,7 +19,7 @@
           <td></td>
           <td>{{str.final}}</td>
           <td>{{str.mod}}</td>
-          <td></td>
+          <td>{{str.cost}}</td>
         </tr>
         <tr>
           <th>Dexterity</th>
@@ -27,7 +27,7 @@
           <td></td>
           <td>{{dex.final}}</td>
           <td>{{dex.mod}}</td>
-          <td></td>
+          <td>{{dex.cost}}</td>
         </tr>
         <tr>
           <th>Constitution</th>
@@ -35,7 +35,7 @@
           <td></td>
           <td>{{con.final}}</td>
           <td>{{con.mod}}</td>
-          <td></td>
+          <td>{{con.cost}}</td>
         </tr>
         <tr>
           <th>Intelligence</th>
@@ -43,7 +43,7 @@
           <td></td>
           <td>{{int.final}}</td>
           <td>{{int.mod}}</td>
-          <td></td>
+          <td>{{int.cost}}</td>
         </tr>
         <tr>
           <th>Wisdom</th>
@@ -51,7 +51,7 @@
           <td></td>
           <td>{{wis.final}}</td>
           <td>{{wis.mod}}</td>
-          <td></td>
+          <td>{{wis.cost}}</td>
         </tr>
         <tr>
           <th>Charisma</th>
@@ -59,7 +59,7 @@
           <td></td>
           <td>{{cha.final}}</td>
           <td>{{cha.mod}}</td>
-          <td></td>
+          <td>{{cha.cost}}</td>
         </tr>
       </table>
   </div>
@@ -72,50 +72,58 @@
       return{
         totalPoints: 27,
         remainingPoints: {
-          maxPoints: 27,
-          remainingPoints: 27,
-          pointsSpent: 0
+          max: 27,
+          remaining: 27,
+          spent: 0
         },
         str: {
           base: 8,
           final: 8,
-          mod: -1
+          mod: -1,
+          cost: 0
         },
         dex: {
           base: 8,
           final: 8,
-          mod: -1
+          mod: -1,
+          cost: 0
         },
         con: {
           base: 8,
           final: 8,
-          mod: -1
+          mod: -1,
+          cost: 0
         },
         int: {
           base: 8,
           final: 8,
-          mod: -1
+          mod: -1,
+          cost: 0
         },
         wis: {
           base: 8,
           final: 8,
-          mod: -1
+          mod: -1,
+          cost: 0
         },
         cha: {
           base: 8,
           final: 8,
-          mod: -1
-        }
+          mod: -1,
+          cost: 0
+        },
+        totalCost: 0
       }
     },
     methods: {
+      setMaxRemainingPoints: function(points){
+        this.remainingPoints.max = points;
+      },
       setRemainingPoints: function(){
-        let remainingPoints = document.getElementById('remainingPoints');
-        // remainingPoints.value = totalPoints;
-        return this.totalPoints;
+        this.remainingPoints.remaining = parseInt(this.remainingPoints.max) - this.remainingPoints.spent;
+        this.remainingPoints.spent = this.str.cost + this.dex.cost + this.con.cost + this.int.cost + this.wis.cost + this.cha.cost;
       },
       calculateTotalScore: function(stat){
-        // console.log(stat);
         stat.final = parseInt(stat.base) + 0;
         this.calculateModifier(stat);
       },
@@ -124,10 +132,13 @@
         if(stat.mod > 0){
           stat.mod = "+" + stat.mod;
         }
+        this.calculateCost(stat);
+      },
+      calculateCost: function(stat){
+        let cost = stat.base - 8;
+        stat.cost = cost;
+        this.setRemainingPoints();
       }
-    },
-    computed: {
-
     }
   }
 </script>
