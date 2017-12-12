@@ -1,9 +1,9 @@
 <template>
   <div>
       <h2>Point Buy System</h2>
-      <label>Available Points:<input type="number" v-model="totalPoints"></label>
+      <label>Available Points:<input type="number" v-model="totalPoints" v-on:change="setRemainingPoints()"></label>
       <!-- Remaining Points: <input type="text" readonly v-model="remainingPoints"> -->
-      Remaining Points: <input type="text" readonly id="remainingPoints">
+      Remaining Points: <input type="text" readonly id="remainingPoints" v-model="remainingPoints.remainingPoints">
       <table>
         <tr>
           <th class="empty"></th>
@@ -15,47 +15,47 @@
         </tr>
         <tr>
           <th>Strength</th>
-          <td><input type="number" v-model="str.base" min=0 max=15></td>
+          <td><input type="number" v-model="str.base" min=0 max=15 v-on:change="calculateTotalScore(str)"></td>
           <td></td>
-          <td></td>
-          <td></td>
+          <td>{{str.final}}</td>
+          <td>{{str.mod}}</td>
           <td></td>
         </tr>
         <tr>
           <th>Dexterity</th>
-          <td><input type="number" v-model="dex.base" min=0 max=15></td>
+          <td><input type="number" v-model="dex.base" min=0 max=15 v-on:change="calculateTotalScore(dex)"></td>
           <td></td>
-          <td></td>
-          <td></td>
+          <td>{{dex.final}}</td>
+          <td>{{dex.mod}}</td>
           <td></td>
         </tr>
         <tr>
           <th>Constitution</th>
-          <td><input type="number" v-model="con.base" min=0 max=15></td>
+          <td><input type="number" v-model="con.base" min=0 max=15 v-on:change="calculateTotalScore(con)"></td>
           <td></td>
-          <td></td>
-          <td></td>
+          <td>{{con.final}}</td>
+          <td>{{con.mod}}</td>
           <td></td>
         </tr>
         <tr>
           <th>Intelligence</th>
-          <td><input type="number" v-model="int.base" min=0 max=15></td>
+          <td><input type="number" v-model="int.base" min=0 max=15 v-on:change="calculateTotalScore(int)"></td>
           <td></td>
-          <td></td>
-          <td></td>
+          <td>{{int.final}}</td>
+          <td>{{int.mod}}</td>
           <td></td>
         </tr>
         <tr>
           <th>Wisdom</th>
-          <td><input type="number" v-model="wis.base" min=0 max=15></td>
+          <td><input type="number" v-model="wis.base" min=0 max=15 v-on:change="calculateTotalScore(wis)"></td>
           <td></td>
-          <td></td>
-          <td></td>
+          <td>{{wis.final}}</td>
+          <td>{{wis.mod}}</td>
           <td></td>
         </tr>
         <tr>
           <th>Charisma</th>
-          <td><input type="number" v-model="cha.base" name="cha" min=0 max=15 @change="this.calculateTotalScore"></td>
+          <td><input type="number" v-model="cha.base" name="cha" min=0 max=15 v-on:change="calculateTotalScore(cha)"></td>
           <td></td>
           <td>{{cha.final}}</td>
           <td>{{cha.mod}}</td>
@@ -71,10 +71,11 @@
     data(){
       return{
         totalPoints: 27,
-        // remainingPoints: {
-        //   maxPoints: 0,
-        //   remainingPoints: 0
-        // },
+        remainingPoints: {
+          maxPoints: 27,
+          remainingPoints: 27,
+          pointsSpent: 0
+        },
         str: {
           base: 8,
           final: 8,
@@ -114,19 +115,15 @@
         return this.totalPoints;
       },
       calculateTotalScore: function(stat){
-        // console.log(stat + "mod");
-        let baseScore = stat.target.value;
-        this.cha.final = baseScore;
-        this.calculateModifier();
+        // console.log(stat);
+        stat.final = parseInt(stat.base) + 0;
+        this.calculateModifier(stat);
       },
-      calculateModifier: function(){
-        this.cha.mod = Math.floor((this.cha.final-10)/2);
-        if(this.cha.mod > 0){
-          this.cha.mod = "+" + this.cha.mod;
+      calculateModifier: function(stat){
+        stat.mod = Math.floor((stat.final-10)/2);
+        if(stat.mod > 0){
+          stat.mod = "+" + stat.mod;
         }
-        // let baseScore = document.getElementById(id);
-        // let racial = document.getElementById(id);
-        // console.log(baseScore);
       }
     },
     computed: {
