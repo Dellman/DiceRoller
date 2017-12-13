@@ -3,7 +3,7 @@
       <h2>Point Buy System</h2>
       <label>Available Points:<input type="number" v-model="totalPoints" v-on:change="setMaxRemainingPoints(totalPoints)"></label>
       <!-- Remaining Points: <input type="text" readonly v-model="remainingPoints"> -->
-      Remaining Points: <input type="text" readonly id="remainingPoints" v-model="remainingPoints.remaining">
+      Remaining Points: <input type="text" readonly v-model="remainingPoints.remaining">
       <table>
         <tr>
           <th class="empty"></th>
@@ -118,10 +118,12 @@
     methods: {
       setMaxRemainingPoints: function(points){
         this.remainingPoints.max = points;
+        this.setRemainingPoints();
       },
       setRemainingPoints: function(){
-        this.remainingPoints.remaining = parseInt(this.remainingPoints.max) - this.remainingPoints.spent;
         this.remainingPoints.spent = this.str.cost + this.dex.cost + this.con.cost + this.int.cost + this.wis.cost + this.cha.cost;
+        this.remainingPoints.remaining = parseInt(this.remainingPoints.max) - this.remainingPoints.spent;
+
       },
       calculateTotalScore: function(stat){
         stat.final = parseInt(stat.base) + 0;
