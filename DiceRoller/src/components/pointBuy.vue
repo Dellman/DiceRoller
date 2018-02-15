@@ -2,7 +2,6 @@
   <div>
       <h2>Point Buy System</h2>
       <label>Available Points:<input type="number" v-model="totalPoints" v-on:change="setMaxRemainingPoints(totalPoints)"></label>
-      <!-- Remaining Points: <input type="text" readonly v-model="remainingPoints"> -->
       Remaining Points: <input type="text" readonly v-model="remainingPoints.remaining">
       <table>
         <tr>
@@ -15,7 +14,7 @@
         </tr>
         <tr>
           <th>Strength</th>
-          <td><input type="number" v-model="str.base" min=0 max=15 v-on:change="calculateTotalScore(str)"></td>
+          <td><input type="number" v-model="str.base" min=8 max=15 v-on:change="calculateTotalScore(str)"></td>
           <td></td>
           <td>{{str.final}}</td>
           <td>{{str.mod}}</td>
@@ -23,7 +22,7 @@
         </tr>
         <tr>
           <th>Dexterity</th>
-          <td><input type="number" v-model="dex.base" min=0 max=15 v-on:change="calculateTotalScore(dex)"></td>
+          <td><input type="number" v-model="dex.base" min=8 max=15 v-on:change="calculateTotalScore(dex)"></td>
           <td></td>
           <td>{{dex.final}}</td>
           <td>{{dex.mod}}</td>
@@ -31,7 +30,7 @@
         </tr>
         <tr>
           <th>Constitution</th>
-          <td><input type="number" v-model="con.base" min=0 max=15 v-on:change="calculateTotalScore(con)"></td>
+          <td><input type="number" v-model="con.base" min=8 max=15 v-on:change="calculateTotalScore(con)"></td>
           <td></td>
           <td>{{con.final}}</td>
           <td>{{con.mod}}</td>
@@ -39,7 +38,7 @@
         </tr>
         <tr>
           <th>Intelligence</th>
-          <td><input type="number" v-model="int.base" min=0 max=15 v-on:change="calculateTotalScore(int)"></td>
+          <td><input type="number" v-model="int.base" min=8 max=15 v-on:change="calculateTotalScore(int)"></td>
           <td></td>
           <td>{{int.final}}</td>
           <td>{{int.mod}}</td>
@@ -47,7 +46,7 @@
         </tr>
         <tr>
           <th>Wisdom</th>
-          <td><input type="number" v-model="wis.base" min=0 max=15 v-on:change="calculateTotalScore(wis)"></td>
+          <td><input type="number" v-model="wis.base" min=8 max=15 v-on:change="calculateTotalScore(wis)"></td>
           <td></td>
           <td>{{wis.final}}</td>
           <td>{{wis.mod}}</td>
@@ -55,13 +54,16 @@
         </tr>
         <tr>
           <th>Charisma</th>
-          <td><input type="number" v-model="cha.base" name="cha" min=0 max=15 v-on:change="calculateTotalScore(cha)"></td>
+          <td><input type="number" v-model="cha.base" name="cha" min=8 max=15 v-on:change="calculateTotalScore(cha)"></td>
           <td></td>
           <td>{{cha.final}}</td>
           <td>{{cha.mod}}</td>
           <td>{{cha.cost}}</td>
         </tr>
       </table>
+      <select v-for="race in races" id="races" name="">
+        <option>{{race.name}}</option>
+      </select>
   </div>
 </template>
 
@@ -116,6 +118,23 @@
       }
     },
     methods: {
+      callAJAX: function(){
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+              console.log('responseText:' + xmlhttp.responseText);
+              try {
+                  var data = JSON.parse(xmlhttp.responseText);
+              } catch(err) {
+                  console.log(err.message + " in " + xmlhttp.responseText);
+                  return;
+              }
+              callback(data);
+          }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+      },
       setMaxRemainingPoints: function(points){
         this.remainingPoints.max = points;
         this.setRemainingPoints();
@@ -123,7 +142,6 @@
       setRemainingPoints: function(){
         this.remainingPoints.spent = this.str.cost + this.dex.cost + this.con.cost + this.int.cost + this.wis.cost + this.cha.cost;
         this.remainingPoints.remaining = parseInt(this.remainingPoints.max) - this.remainingPoints.spent;
-
       },
       calculateTotalScore: function(stat){
         stat.final = parseInt(stat.base) + 0;
