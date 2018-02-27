@@ -133,6 +133,7 @@ export default {
       // if not, do a line through that value, otherwise put the line through the next number
       for (let i = 0; i < rolls.length; i += 2) {
         if(rolls[i] < rolls[i + 1]){
+          console.log("First is smaller " + rolls);
           if (this.rollType === "advantage") {
             strike(i);
           }
@@ -141,7 +142,8 @@ export default {
           }
         }
         else if(rolls[i] > rolls[i + 1]){
-          if (this.rollType === "disadvantage") {
+          console.log("Second is smaller " + rolls);          
+          if (this.rollType === "advantage") {
             strike(i + 1);
           }
           else if(this.rollType === "disadvantage"){
