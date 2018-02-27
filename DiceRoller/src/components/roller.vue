@@ -114,7 +114,7 @@ export default {
         span.append(this.rollObj.modRoll);
         addComma();
       }
-      if (advantage.checked || disadvantage.checked) {
+      if (this.rollType === "advantage" || this.rollType === "disadvantage") {
         this.lineThrough();
       }
     },
@@ -133,18 +133,18 @@ export default {
       // if not, do a line through that value, otherwise put the line through the next number
       for (let i = 0; i < rolls.length; i += 2) {
         if(rolls[i] < rolls[i + 1]){
-          if (advantage.checked) {
+          if (this.rollType === "advantage") {
             strike(i);
           }
-          else if(disadvantage.checked){
+          else if(this.rollType === "disadvantage"){
             strike(i + 1);
           }
         }
         else if(rolls[i] > rolls[i + 1]){
-          if (advantage.checked) {
+          if (this.rollType === "disadvantage") {
             strike(i + 1);
           }
-          else if(disadvantage.checked){
+          else if(this.rollType === "disadvantage"){
             strike(i);
           }
         }
