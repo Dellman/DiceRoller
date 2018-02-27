@@ -2,20 +2,22 @@
   <div>
     <h1>Dice Roller</h1>
     <p>Welcome to the dice roller! Here you can roll dice for whatever reason! Rolling on advantage means rolling twice and taking the higher value, while disadvantage means taking the lower value (the ignored value will have a strike-through). You can also roll multiple times by changing the roll number, and the modifier will be added to the original roll. A green number means a critical success when using the D20, while a red means a ciritcal failure. If you are looking to use this to simply create a character, check the <router-link to="/Creator">character creator page!</router-link></p>
-    <span><button v-on:click="roll(4)">D4</button>
-    <button v-on:click="roll(5)">D5</button>
-    <button v-on:click="roll(6)">D6</button>
-    <button v-on:click="roll(8)">D8</button>
-    <button v-on:click="roll(10)">D10</button>
-    <button v-on:click="roll(12)">D12</button>
-    <button v-on:click="roll(20)">D20</button>
-    <button v-on:click="roll(100)">D100</button></span>
+    <span>
+      <button v-on:click="roll(4)">D4</button>
+      <button v-on:click="roll(5)">D5</button>
+      <button v-on:click="roll(6)">D6</button>
+      <button v-on:click="roll(8)">D8</button>
+      <button v-on:click="roll(10)">D10</button>
+      <button v-on:click="roll(12)">D12</button>
+      <button v-on:click="roll(20)">D20</button>
+      <button v-on:click="roll(100)">D100</button>
+    </span>
     <br />
-    <label>Normal: <input type="radio" name="vantages" checked></label>
+    <label>Normal: <input type="radio" name="vantages" checked v-model="rollType" value="normal"></label>
     <br />
-    <label>Advantage: <input type="radio" id="advantage" name="vantages"></label>
+    <label>Advantage: <input type="radio" id="advantage" name="vantages" v-model="rollType" value="advantage"></label>
     <br />
-    <label>Disadvantage: <input type="radio" id="disadvantage" name="vantages"></label>
+    <label>Disadvantage: <input type="radio" id="disadvantage" name="vantages" v-model="rollType" value="disadvantage"></label>
 
     <!-- <label>Strength: <input type="radio" name="rollType"></label>
     <label>Dexterity: <input type="radio" name="rollType"></label>
@@ -30,6 +32,9 @@
     <label>Modifier: <input type="number" v-model="modifier" min="-20" max="20"></label>
     <br />
     <span id="rolls"></span>
+
+    <!-- <p>{{ rolls }}</p> -->
+    
   </div>
 </template>
 
@@ -41,6 +46,7 @@ export default {
       rollObj: {},
       times: 1,
       modifier: 0,
+      rollType: "normal"
     }
   },
   methods: {
@@ -59,13 +65,12 @@ export default {
     },
     roll: function(dice){
       this.emptySpan();
-      let advantage = document.getElementById('advantage');
       const rollDice = (multiplier) =>{
         for (let i = 0; i < this.times * multiplier; i++) {
           this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
         }
       }
-      advantage.checked || disadvantage.checked ? rollDice(2) : rollDice(1);
+      this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1);
     },
     // Could move all of this up
     storeRolls: function(roll, id, dice){
@@ -85,12 +90,10 @@ export default {
       this.display(span);
     },
     display: function(span){
-      let advantage = document.getElementById('advantage');
-      let disadvantage = document.getElementById('disadvantage');
       let colorSpan = document.createElement('span');
 
       const addComma = () => {
-          if ((this.times > 1 && span.id < this.times - 1) || (advantage.checked && span.id != this.times * 2 - 1) || disadvantage.checked && span.id != this.times * 2 - 1) {
+          if ((this.times > 1 && span.id < this.times - 1) || (this.rollType === "advantage" && span.id != this.times * 2 - 1) || this.rollType === "disadvantage" && span.id != this.times * 2 - 1) {
             span.append(",");
           }
       }
