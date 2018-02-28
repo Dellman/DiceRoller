@@ -33,7 +33,7 @@
     <br />
     <span id="rolls"></span>
 
-    <!-- <p>{{ rolls }}</p> -->
+    <p>{{ rolls.join(",") }}</p>
     
   </div>
 </template>
@@ -46,7 +46,8 @@ export default {
       rollObj: {},
       times: 1,
       modifier: 0,
-      rollType: "normal"
+      rollType: "normal",
+      rolls: []
     }
   },
   methods: {
@@ -59,12 +60,10 @@ export default {
         return this.emptySpan();
         // I am not sure if there is a better/more proper way to do this
       }
-      // if(rollSpan.childNodes.length > 0){
-      //   this.emptySpan();
-      // }
     },
     roll: function(dice){
       this.emptySpan();
+      this.rolls = [];      
       const rollDice = (multiplier) =>{
         for (let i = 0; i < this.times * multiplier; i++) {
           this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
@@ -78,6 +77,7 @@ export default {
       this.rollObj.id = parseInt(id);
       this.rollObj.dice = parseInt(dice);
       this.rollObj.modRoll = parseInt(roll + parseInt(this.modifier));
+      this.rolls.push(this.rollObj.modRoll);
       this.createSpan();
     },
     createSpan: function(){
@@ -119,21 +119,17 @@ export default {
       }
     },
     lineThrough: function(){
-      let rollsSpanChildren = document.getElementById('rolls').childNodes;
-      let rolls = [];
-      for (var i = 0; i < rollsSpanChildren.length; i++) {
-        rolls.push(parseInt(rollsSpanChildren[i].textContent));
-      }
-
       const strike = (id) =>{
         let roll = document.getElementById(id);
+        let rollSpot = this.rolls[id];
+        console.log(rollSpot);
+        // rollSpot.style.textDecoration = "line-through";
         roll.style.textDecoration = "line-through";
       }
       // check every other value if it is larger than the next value
       // if not, do a line through that value, otherwise put the line through the next number
-      for (let i = 0; i < rolls.length; i += 2) {
-        if(rolls[i] < rolls[i + 1]){
-          console.log("First is smaller " + rolls);
+      for (let i = 0; i < this.rolls.length; i += 2) {
+        if(this.rolls[i] < this.rolls[i + 1]){
           if (this.rollType === "advantage") {
             strike(i);
           }
@@ -141,8 +137,7 @@ export default {
             strike(i + 1);
           }
         }
-        else if(rolls[i] > rolls[i + 1]){
-          console.log("Second is smaller " + rolls);          
+        else if(this.rolls[i] > this.rolls[i + 1]){
           if (this.rollType === "advantage") {
             strike(i + 1);
           }
