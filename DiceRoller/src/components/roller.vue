@@ -35,8 +35,10 @@
 
     <!-- <p>{{ rolls.join(",") }}</p> -->
 
+    <p v-bind:class="{ fail: nat1, succeed: nat20, strike: lower}">Test</p>
+
     <ul>
-      <li v-for="roll in rolls" :key="roll.id">
+      <li v-for="roll in rolls" :key="roll.id" v-bind:class="[ {fail: nat1}, {succeed: nat20}, {strike: lower}]">
         {{ roll.modRoll }} 
       </li>
     </ul>
@@ -54,9 +56,9 @@ export default {
         id: "",
         dice: "",
         modRoll: "",
-        "nat1": false,
-        "nat20": false,
-        "strike": false
+        nat1: true,
+        nat20: false,
+        lower: false
       },
       times: 1,
       modifier: 0,
@@ -92,19 +94,21 @@ export default {
       this.rollObj.dice = parseInt(dice);
       this.rollObj.modRoll = parseInt(roll + parseInt(this.modifier));
       // this.rolls.push(this.rollObj.modRoll); //adding just the final roll works
-      // this.rolls.push(this.rollObj);  //adding the object causes it to only keep the last object added
+      this.rolls.push(this.rollObj);  //adding the object causes it to only keep the last object added
       // console.log("Just the roll: " + this.rollObj.modRoll);  
       // console.log("First array roll value: " + this.rolls[0].modRoll); //the first rollObj is being overridden
-      this.storeRoll(this.modRollrollObj);
+      // this.storeRoll(this.modRollrollObj);
+      this.createSpan();      
+      
     },
     storeRoll: function(roll){
       this.rolls.push(roll);  //adding the object causes it to only keep the last object added      
-      this.createSpan();      
+      // this.createSpan();      
     },
     createSpan: function(){
-      for (let i = 0; i < this.rolls.length; i++) {
-        console.log(this.rolls[i].modRoll);       
-      }
+      // for (let i = 0; i < this.rolls.length; i++) {
+      //   console.log(this.rolls[i].modRoll);       
+      // }
       let rollSpan = document.getElementById('rolls');
       let span = document.createElement("span");
       span.className="roll-span";
@@ -124,12 +128,14 @@ export default {
       //on a D20 make the span red for critical failures and green for critical success
       if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
         colorSpan.style.color = "red";
+        this.rollObj.nat1 = true;
         colorSpan.append(this.rollObj.modRoll);
         span.append(colorSpan);
         addComma();
       }
       else if(this.rollObj.orgRoll == 20 && this.rollObj.dice == 20){
         colorSpan.style.color = "green";
+        this.rollObj.nat20 = true;
         colorSpan.append(this.rollObj.modRoll);
         span.append(colorSpan);
         addComma();
@@ -192,5 +198,14 @@ a {
 }
 span{
   display: block;
+}
+.fail{
+  color: red;
+}
+.succeed{
+  color: green;
+}
+.strike{
+  text-decoration: line-through;
 }
 </style>
