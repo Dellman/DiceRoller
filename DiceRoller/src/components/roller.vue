@@ -13,11 +13,11 @@
       <button v-on:click="roll(100)">D100</button>
     </span>
     <br />
-    <label>Normal: <input type="radio" name="vantages" checked v-model="rollType" value="normal"></label>
+    <label>Normal: <input type="radio"  checked v-model="rollType" value="normal"></label>
     <br />
-    <label>Advantage: <input type="radio" id="advantage" name="vantages" v-model="rollType" value="advantage"></label>
+    <label>Advantage: <input type="radio" id="advantage"  v-model="rollType" value="advantage"></label>
     <br />
-    <label>Disadvantage: <input type="radio" id="disadvantage" name="vantages" v-model="rollType" value="disadvantage"></label>
+    <label>Disadvantage: <input type="radio" id="disadvantage" v-model="rollType" value="disadvantage"></label>
 
     <!-- <label>Strength: <input type="radio" name="rollType"></label>
     <label>Dexterity: <input type="radio" name="rollType"></label>
@@ -34,10 +34,10 @@
     <span id="rolls"></span>
 
     <!-- <p>{{ rolls.join(",") }}</p> -->
-    <!-- Work on displaying with color/strikethrough -->
+    <!-- Work on displaying with strikethrough -->
     <ul>
-      <!-- <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.lower}"> -->
-      <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20}">        
+      <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.lower}">
+      <!-- <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20}">       -->
       <!-- <li v-for="roll in rolls" :key="roll.id" v-bind:style="fail">   -->
         {{ roll.modRoll }} 
       </li>
@@ -98,12 +98,7 @@ export default {
       // console.log("Just the roll: " + this.rollObj.modRoll);  
       // console.log("First array roll value: " + this.rolls[0].modRoll); //the first rollObj is being overridden
       // this.storeRoll(this.modRollrollObj);
-      this.createSpan();      
-      
-    },
-    storeRoll: function(roll){
-      this.rolls.push(roll);  //adding the object causes it to only keep the last object added      
-      // this.createSpan();      
+      this.createSpan();       
     },
     createSpan: function(){
       // for (let i = 0; i < this.rolls.length; i++) {
@@ -154,7 +149,6 @@ export default {
       const strike = (id) =>{
         let roll = document.getElementById(id);
         let rollSpot = this.rolls[id];
-        console.log(rollSpot);
         // rollSpot.style.textDecoration = "line-through";
         roll.style.textDecoration = "line-through";
       }
@@ -162,7 +156,7 @@ export default {
       // if not, do a line through that value, otherwise put the line through the next number
       for (let i = 0; i < this.rolls.length; i += 2) {
         if(this.rolls[i] < this.rolls[i + 1]){
-          if (this.rollType === "advantage") {
+          if (this.rollType === "advantage") {            
             strike(i);
           }
           else if(this.rollType === "disadvantage"){
