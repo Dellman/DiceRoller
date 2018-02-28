@@ -33,7 +33,13 @@
     <br />
     <span id="rolls"></span>
 
-    <p>{{ rolls.join(",") }}</p>
+    <!-- <p>{{ rolls.join(",") }}</p> -->
+
+    <ul>
+      <li v-for="roll in rolls" :key="roll.id">
+        {{ roll.modRoll }} 
+      </li>
+    </ul>
     
   </div>
 </template>
@@ -43,7 +49,15 @@ export default {
   name: 'Roller',
   data () {
     return {
-      rollObj: {},
+      rollObj: {
+        orgRoll: "",
+        id: "",
+        dice: "",
+        modRoll: "",
+        "nat1": false,
+        "nat20": false,
+        "strike": false
+      },
       times: 1,
       modifier: 0,
       rollType: "normal",
@@ -61,26 +75,36 @@ export default {
         // I am not sure if there is a better/more proper way to do this
       }
     },
-    roll: function(dice){
+    roll: function(dice){ // should this be computed?
       this.emptySpan();
-      this.rolls = [];      
+      this.rolls = [];
       const rollDice = (multiplier) =>{
         for (let i = 0; i < this.times * multiplier; i++) {
-          this.storeRolls(Math.floor(Math.random() * dice + 1), i, dice);
+          this.createRoll(Math.floor(Math.random() * dice + 1), i, dice);
         }
       }
       this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1);
     },
     // Could move all of this up
-    storeRolls: function(roll, id, dice){
+    createRoll: function(roll, id, dice){
       this.rollObj.orgRoll = parseInt(roll);
       this.rollObj.id = parseInt(id);
       this.rollObj.dice = parseInt(dice);
       this.rollObj.modRoll = parseInt(roll + parseInt(this.modifier));
-      this.rolls.push(this.rollObj.modRoll);
-      this.createSpan();
+      // this.rolls.push(this.rollObj.modRoll); //adding just the final roll works
+      // this.rolls.push(this.rollObj);  //adding the object causes it to only keep the last object added
+      // console.log("Just the roll: " + this.rollObj.modRoll);  
+      // console.log("First array roll value: " + this.rolls[0].modRoll); //the first rollObj is being overridden
+      this.storeRoll(this.modRollrollObj);
+    },
+    storeRoll: function(roll){
+      this.rolls.push(roll);  //adding the object causes it to only keep the last object added      
+      this.createSpan();      
     },
     createSpan: function(){
+      for (let i = 0; i < this.rolls.length; i++) {
+        console.log(this.rolls[i].modRoll);       
+      }
       let rollSpan = document.getElementById('rolls');
       let span = document.createElement("span");
       span.className="roll-span";
