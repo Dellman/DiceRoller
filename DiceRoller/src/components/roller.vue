@@ -34,11 +34,11 @@
     <span id="rolls"></span>
 
     <!-- <p>{{ rolls.join(",") }}</p> -->
-
-    <p v-bind:class="{ fail: nat1, succeed: nat20, strike: lower}">Test</p>
-
+    <!-- Work on displaying with color/strikethrough -->
     <ul>
-      <li v-for="roll in rolls" :key="roll.id" v-bind:class="[ {fail: nat1}, {succeed: nat20}, {strike: lower}]">
+      <!-- <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.lower}"> -->
+      <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20}">        
+      <!-- <li v-for="roll in rolls" :key="roll.id" v-bind:style="fail">   -->
         {{ roll.modRoll }} 
       </li>
     </ul>
@@ -56,10 +56,10 @@ export default {
         id: "",
         dice: "",
         modRoll: "",
-        nat1: true,
-        nat20: false,
+        isNat1: false,
+        isNat20: false,
         lower: false
-      },
+      },  
       times: 1,
       modifier: 0,
       rollType: "normal",
@@ -128,20 +128,22 @@ export default {
       //on a D20 make the span red for critical failures and green for critical success
       if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
         colorSpan.style.color = "red";
-        this.rollObj.nat1 = true;
+        this.rollObj.isNat1 = true;
         colorSpan.append(this.rollObj.modRoll);
         span.append(colorSpan);
         addComma();
       }
       else if(this.rollObj.orgRoll == 20 && this.rollObj.dice == 20){
         colorSpan.style.color = "green";
-        this.rollObj.nat20 = true;
+        this.rollObj.isNat20 = true;
         colorSpan.append(this.rollObj.modRoll);
         span.append(colorSpan);
         addComma();
       }
       else{
         span.append(this.rollObj.modRoll);
+        this.rollObj.isNat1 = false;
+        this.rollObj.isNat20 = false;
         addComma();
       }
       if (this.rollType === "advantage" || this.rollType === "disadvantage") {
@@ -199,10 +201,10 @@ a {
 span{
   display: block;
 }
-.fail{
+.nat1{
   color: red;
 }
-.succeed{
+.nat20{
   color: green;
 }
 .strike{
