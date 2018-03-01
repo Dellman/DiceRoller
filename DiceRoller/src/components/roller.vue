@@ -36,10 +36,19 @@
     <!-- <p>{{ rolls.join(",") }}</p> -->
     <!-- Work on displaying with strikethrough -->
     <ul>
-      <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.lower}">
-      <!-- <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20}">       -->
-      <!-- <li v-for="roll in rolls" :key="roll.id" v-bind:style="fail">   -->
-        {{ roll.modRoll }} 
+      <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.lower}">  
+        {{ rolls }} 
+
+      <!-- <li v-for="roll in rolls" :key="roll">
+        <span  v-if="roll - modifier == 20" class="nat20">
+          {{ roll }}          
+        </span>
+        <span v-else-if="roll - modifier == 1" class="nat1">
+          {{ roll }}          
+        </span>
+        <span v-else>
+          {{ rolls }}
+        </span> -->
       </li>
     </ul>
     
@@ -77,12 +86,12 @@ export default {
         // I am not sure if there is a better/more proper way to do this
       }
     },
-    roll: function(dice){ // should this be computed?
+    roll: function(dice){
       this.emptySpan();
       this.rolls = [];
       const rollDice = (multiplier) =>{
         for (let i = 0; i < this.times * multiplier; i++) {
-          this.createRoll(Math.floor(Math.random() * dice + 1), i, dice);
+          this.createRoll(Math.floor(Math.random() * dice + 1), i, dice); //closure problem?
         }
       }
       this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1);
