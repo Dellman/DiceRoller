@@ -33,11 +33,29 @@
     <br />
     <span id="rolls"></span>
 
-    <!-- <p>{{ rolls.join(",") }}</p> -->
+    <!-- Using modRoll -->
+    <!-- <p v-bind:class="{'nat1': roll - modifier == 1, 'nat20': roll - modifier == 20}">{{ rolls.join(", ") }}</p> -->
+    <p>{{ rolls.join(", ") }}</p>
+    <!-- <ul>
+      <li v-for="roll in rolls" :key="roll">
+        <span  v-if="roll - modifier == 20" class="nat20">
+          {{ roll }}          
+        </span>
+        <span v-else-if="roll - modifier == 1" class="nat1">
+          {{ roll }}          
+        </span>
+        <span v-else>
+          {{ roll }}
+        </span>
+      </li>
+    </ul> -->
+    
     <!-- Work on displaying with strikethrough -->
     <ul>
       <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.lower}">  
-        {{ rolls }} 
+        <!-- {{ roll.modRoll }} Only shows last roll -->
+        <!-- {{ rolls }} Creates multiple copies of rolls -->
+        <!-- {{ roll.modRoll }} -->
 
       <!-- <li v-for="roll in rolls" :key="roll">
         <span  v-if="roll - modifier == 20" class="nat20">
@@ -51,6 +69,8 @@
         </span> -->
       </li>
     </ul>
+
+    <span>Total: {{ total }}</span>
     
   </div>
 </template>
@@ -67,16 +87,18 @@ export default {
         modRoll: "",
         isNat1: false,
         isNat20: false,
-        lower: false
+        lower: false,
       },  
       times: 1,
       modifier: 0,
       rollType: "normal",
-      rolls: []
+      rolls: [], // multiple versions are made
+      total: 0
+      
     }
   },
   methods: {
-    emptySpan: function(dice){
+    emptySpan: function(dice){ // will become unncessary
       let rollSpan = document.getElementById('rolls');
       if(rollSpan.childNodes.length > 0){
         for (let i = 0; i < rollSpan.childNodes.length; i++) {
@@ -91,28 +113,22 @@ export default {
       this.rolls = [];
       const rollDice = (multiplier) =>{
         for (let i = 0; i < this.times * multiplier; i++) {
-          this.createRoll(Math.floor(Math.random() * dice + 1), i, dice); //closure problem?
+          this.createRoll(Math.floor(Math.random() * dice + 1), i, dice);
         }
       }
       this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1);
     },
     // Could move all of this up
-    createRoll: function(roll, id, dice){
+    createRoll: function(roll, id, dice){ // needs finalized/cleaned up
       this.rollObj.orgRoll = parseInt(roll);
       this.rollObj.id = parseInt(id);
       this.rollObj.dice = parseInt(dice);
       this.rollObj.modRoll = parseInt(roll + parseInt(this.modifier));
-      // this.rolls.push(this.rollObj.modRoll); //adding just the final roll works
-      this.rolls.push(this.rollObj);  //adding the object causes it to only keep the last object added
-      // console.log("Just the roll: " + this.rollObj.modRoll);  
-      // console.log("First array roll value: " + this.rolls[0].modRoll); //the first rollObj is being overridden
-      // this.storeRoll(this.modRollrollObj);
+      this.rolls.push(this.rollObj.modRoll); //adding just the mod roll works
+      // this.rolls.push(this.rollObj);  //adding the object causes it to only keep the last object added
       this.createSpan();       
     },
-    createSpan: function(){
-      // for (let i = 0; i < this.rolls.length; i++) {
-      //   console.log(this.rolls[i].modRoll);       
-      // }
+    createSpan: function(){ // will become unncessary
       let rollSpan = document.getElementById('rolls');
       let span = document.createElement("span");
       span.className="roll-span";
@@ -121,7 +137,7 @@ export default {
       rollSpan.append(span);
       this.display(span);
     },
-    display: function(span){
+    display: function(span){ // will become mostly unncessary/broken up
       let colorSpan = document.createElement('span');
 
       const addComma = () => {
@@ -132,27 +148,50 @@ export default {
       //on a D20 make the span red for critical failures and green for critical success
       if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
         colorSpan.style.color = "red";
-        this.rollObj.isNat1 = true;
+        this.rollObj.isNat1 = true; // keep when refactored
         colorSpan.append(this.rollObj.modRoll);
         span.append(colorSpan);
         addComma();
       }
       else if(this.rollObj.orgRoll == 20 && this.rollObj.dice == 20){
         colorSpan.style.color = "green";
-        this.rollObj.isNat20 = true;
+        this.rollObj.isNat20 = true; // keep when refactored
         colorSpan.append(this.rollObj.modRoll);
         span.append(colorSpan);
         addComma();
       }
       else{
         span.append(this.rollObj.modRoll);
-        this.rollObj.isNat1 = false;
-        this.rollObj.isNat20 = false;
+        this.rollObj.isNat1 = false; // keep when refactored
+        this.rollObj.isNat20 = false; // keep when refactored
         addComma();
       }
-      if (this.rollType === "advantage" || this.rollType === "disadvantage") {
+      if (this.rollType === "advantage" || this.rollType === "disadvantage") { // keep when refactored
         this.lineThrough();
       }
+      this.addRolls(); // keep when refactored
+    },
+    addRolls: function(){ // add to computed when done?
+      // this.total = 0;
+      if(this.times == 1){
+        // this.total = this.rolls.modRoll; // When the roll is an object
+        this.total = this.rollObj.modRoll;
+      }
+      else{
+        // When the roll is an object
+        // console.log(this.rolls.reduce((total, roll) =>({
+        //   sum : total.modRoll + roll.modRoll
+        // })));
+
+        // When it is the modified roll
+        // this.total += this.rollObj.modRoll;
+        for (let i = 0; i < this.rolls; i++) {
+          // console.log(this.rolls)
+          // this.total += this.rolls[i].modRoll;
+        }
+
+      }
+      
     },
     lineThrough: function(){
       const strike = (id) =>{
@@ -181,6 +220,11 @@ export default {
           }
         }
       }
+    }
+  },
+  computed: {
+    addRollsComp: function(){
+    //   console.log(...this.rolls.modRoll);
     }
   }
 }
