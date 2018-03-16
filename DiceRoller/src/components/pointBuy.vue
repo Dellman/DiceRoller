@@ -163,7 +163,7 @@
   }
 </script>
 
-<style scoped>
+<style>
 body{
   background-image: url("../assets/parchment.jpg");
 }

@@ -1,23 +1,28 @@
 <template>
   <div id="app">
-  <router-view/>
+  <!-- <router-view/> -->
+  <!-- <h2>Test</h2> -->
+  <!-- <router-link to="/roller">Roller</router-link> -->
+  <!-- Nothing in here matters -->
   </div>
 </template>
 
 <script>
 import Roller from './components/roller';
 import Creator from './components/characterCreator';
+import PointBuy from './components/pointBuy';
 
 export default {
   name: 'app',
   components: {
-    Roller, Creator
+    Roller, Creator, PointBuy
   }
 }
 </script>
 
 <style>
-body{
+/* These styles don't actually matter because how it is set up is that the app is just filled with EVERYTHING from the other components (I think) */
+/* body{
   background-image: url("assets/parchment.jpg");
 }
 #app {
@@ -43,9 +48,9 @@ a {
   color: #42b983;
 }
 span{
-  /*display: block;*/
+  display: block;
 }
 input{
   margin: .25em 0;
-}
+} */
 </style>

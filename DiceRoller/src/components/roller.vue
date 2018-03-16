@@ -230,7 +230,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style> /* Why not scoped? */
+body{
+  background-image: url("../assets/parchment.jpg");
+}
 h1, h2 {
   font-weight: normal;
 }
@@ -243,7 +246,7 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  /* color: #42b983; */
 }
 span{
   display: block;

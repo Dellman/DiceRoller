@@ -135,7 +135,7 @@
   }
 </script>
 
-<style scoped>
+<style>
 table{
   margin: 0 auto;
   border: 1px solid black;
