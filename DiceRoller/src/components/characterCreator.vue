@@ -136,6 +136,17 @@
 </script>
 
 <style>
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+body{
+  background-image: url("../assets/parchment.jpg");
+}
 table{
   margin: 0 auto;
   border: 1px solid black;
@@ -155,6 +166,5 @@ thead{
   text-align: center;
   display: block;
   margin: 0 auto;
-  vertical-align: middle;
 }
 </style>

@@ -33,41 +33,14 @@
     <br />
     <span id="rolls"></span>
 
-    <!-- Using modRoll -->
-    <!-- <p v-bind:class="{'nat1': roll - modifier == 1, 'nat20': roll - modifier == 20}">{{ rolls.join(", ") }}</p> -->
-    <p>{{ rolls.join(", ") }}</p>
-    <!-- <ul>
-      <li v-for="roll in rolls" :key="roll">
-        <span  v-if="roll - modifier == 20" class="nat20">
-          {{ roll }}          
-        </span>
-        <span v-else-if="roll - modifier == 1" class="nat1">
-          {{ roll }}          
-        </span>
-        <span v-else>
-          {{ roll }}
-        </span>
-      </li>
-    </ul> -->
-    
-    <!-- Work on displaying with strikethrough -->
     <ul>
       <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.lower}">  
-        <!-- {{ roll.modRoll }} Only shows last roll -->
-        <!-- {{ rolls }} Creates multiple copies of rolls -->
-        <!-- {{ roll.modRoll }} -->
+        
+        {{ roll }} <!-- Whole object -->
+        {{ roll.modRoll }} <!-- Final value -->
 
-      <!-- <li v-for="roll in rolls" :key="roll">
-        <span  v-if="roll - modifier == 20" class="nat20">
-          {{ roll }}          
-        </span>
-        <span v-else-if="roll - modifier == 1" class="nat1">
-          {{ roll }}          
-        </span>
-        <span v-else>
-          {{ rolls }}
-        </span> -->
       </li>
+
     </ul>
 
     <span>Total: {{ total }}</span>
@@ -92,7 +65,7 @@ export default {
       times: 1,
       modifier: 0,
       rollType: "normal",
-      rolls: [], // multiple versions are made
+      rolls: [],
       total: 0
       
     }
@@ -124,9 +97,9 @@ export default {
       this.rollObj.id = parseInt(id);
       this.rollObj.dice = parseInt(dice);
       this.rollObj.modRoll = parseInt(roll + parseInt(this.modifier));
-      this.rolls.push(this.rollObj.modRoll); //adding just the mod roll works
-      // this.rolls.push(this.rollObj);  //adding the object causes it to only keep the last object added
-      this.createSpan();       
+      // this.rolls.push(this.rollObj.modRoll); //adding just the mod roll works
+      this.rolls.push(this.rollObj); // replaces previously stored rollObj 
+      this.createSpan();  
     },
     createSpan: function(){ // will become unncessary
       let rollSpan = document.getElementById('rolls');
@@ -160,7 +133,7 @@ export default {
         span.append(colorSpan);
         addComma();
       }
-      else{
+      else{ // returns color back to black
         span.append(this.rollObj.modRoll);
         this.rollObj.isNat1 = false; // keep when refactored
         this.rollObj.isNat20 = false; // keep when refactored
@@ -172,24 +145,23 @@ export default {
       this.addRolls(); // keep when refactored
     },
     addRolls: function(){ // add to computed when done?
-      // this.total = 0;
+      this.total = 0;
       if(this.times == 1){
         // this.total = this.rolls.modRoll; // When the roll is an object
         this.total = this.rollObj.modRoll;
       }
       else{
-        // When the roll is an object
-        // console.log(this.rolls.reduce((total, roll) =>({
-        //   sum : total.modRoll + roll.modRoll
-        // })));
-
-        // When it is the modified roll
-        // this.total += this.rollObj.modRoll;
-        for (let i = 0; i < this.rolls; i++) {
-          // console.log(this.rolls)
-          // this.total += this.rolls[i].modRoll;
+        // should I keep this or use (and figure out) reduce with the object 
+        // currently adds the last roll which coincides with the main bug
+        for (let i = 0; i < this.rolls.length; i++) {
+          this.total += this.rolls[i].modRoll;
         }
 
+        // sum up the objects in the array to get the sum value (doesn't work past two, )
+        // currently adds the last roll which coincides with the main bug        
+        // this.rolls.reduce((total, roll) => {
+        //   this.total = total.modRoll + roll.modRoll
+        // });
       }
       
     },
@@ -230,7 +202,7 @@ export default {
 }
 </script>
 
-<style> /* Why not scoped? */
+<style>
 body{
   background-image: url("../assets/parchment.jpg");
 }
@@ -245,11 +217,9 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
-  /* color: #42b983; */
-}
-span{
-  display: block;
+
+#rolls, #rolls ul li{
+  display: inline;
 }
 .nat1{
   color: red;
