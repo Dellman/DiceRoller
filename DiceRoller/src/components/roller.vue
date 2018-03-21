@@ -36,7 +36,7 @@
     <ul>
       <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.lower}">  
         
-        {{ roll }} <!-- Whole object -->
+        <!--{{ roll }}--> <!-- Whole object -->
         {{ roll.modRoll }} <!-- Final value -->
 
       </li>
@@ -67,7 +67,6 @@ export default {
       rollType: "normal",
       rolls: [],
       total: 0
-      
     }
   },
   methods: {
@@ -89,7 +88,8 @@ export default {
           this.createRoll(Math.floor(Math.random() * dice + 1), i, dice);
         }
       }
-      this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1);
+      //roll twice as many times if rolling on advantage or disadvantage
+      this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1); 
     },
     // Could move all of this up
     createRoll: function(roll, id, dice){ // needs finalized/cleaned up
@@ -163,9 +163,9 @@ export default {
       else{
         // should I keep this or use (and figure out) reduce with the object 
         // currently adds the last roll which coincides with the main bug
-        for (let i = 0; i < this.rolls.length; i++) {
-          this.total += this.rolls[i].modRoll;
-        }
+        // for (let i = 0; i < this.rolls.length; i++) {
+        //   this.total += this.rolls[i].modRoll;
+        // }
 
         // sum up the objects in the array to get the sum value (doesn't work past two, )
         // currently adds the last roll which coincides with the main bug        
@@ -184,21 +184,33 @@ export default {
       }
       // check every other value if it is larger than the next value
       // if not, do a line through that value, otherwise put the line through the next number
-      for (let i = 0; i < this.rolls.length; i += 2) {
-        if(this.rolls[i] < this.rolls[i + 1]){
-          if (this.rollType === "advantage") {            
-            strike(i);
-          }
-          else if(this.rollType === "disadvantage"){
-            strike(i + 1);
-          }
-        }
-        else if(this.rolls[i] > this.rolls[i + 1]){
-          if (this.rollType === "advantage") {
-            strike(i + 1);
-          }
-          else if(this.rollType === "disadvantage"){
-            strike(i);
+      // for (let i = 0; i < this.rolls.length; i += 2) {
+      //   if(this.rolls[i] < this.rolls[i + 1]){
+      //     if (this.rollType === "advantage") {            
+      //       strike(i);
+      //     }
+      //     else if(this.rollType === "disadvantage"){
+      //       strike(i + 1);
+      //     }
+      //   }
+      //   else if(this.rolls[i] > this.rolls[i + 1]){
+      //     if (this.rollType === "advantage") {
+      //       strike(i + 1);
+      //     }
+      //     else if(this.rollType === "disadvantage"){
+      //       strike(i);
+      //     }
+      //   }
+      // }
+      for(let i = 0; i < this.rolls.length; i += 2){
+        // console.log(this.rolls[i]);
+        // console.log(this.rolls[i+1]);
+        const roll = this.rolls[i];
+        // const nextRoll = this.rolls[i+1];
+        if(this.rollType === "advantage"){
+          if(roll.modRoll < this.rolls[i+1].modRoll){
+            console.log("reached");
+            this.rolls[i].nat20 = true;
           }
         }
       }
