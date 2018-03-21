@@ -1,52 +1,51 @@
 <template>
   <div>
-    <h1>Dice Roller</h1>
-    <p>Welcome to the dice roller! Here you can roll dice for whatever reason! Rolling on advantage means rolling twice and taking the higher value, while disadvantage means taking the lower value (the ignored value will have a strike-through). You can also roll multiple times by changing the roll number, and the modifier will be added to the original roll. A green number means a critical success when using the D20, while a red means a ciritcal failure. If you are looking to use this to simply create a character, check the <router-link to="/Creator">character creator page!</router-link></p>
-    <span>
-      <!-- <button v-on:click="roll(3)">D3</button> -->
-      <button v-on:click="roll(4)">D4</button>
-      <!-- <button v-on:click="roll(5)">D5</button> -->
-      <button v-on:click="roll(6)">D6</button>
-      <button v-on:click="roll(8)">D8</button>
-      <button v-on:click="roll(10)">D10</button>
-      <button v-on:click="roll(12)">D12</button>
-      <button v-on:click="roll(20)">D20</button>
-      <button v-on:click="roll(100)">D100</button>
+    <div class="section">
+      <h1>Dice Roller</h1>
+      <p>Welcome to the dice roller! Here you can roll dice for whatever reason! Rolling on advantage means rolling twice and taking the higher value, while disadvantage means taking the lower value (the ignored value will have a strike-through). You can also roll multiple times by changing the roll number, and the modifier will be added to the original roll. A green number means a critical success when using the D20, while a red means a ciritcal failure. If you are looking to use this to simply create a character, check the <router-link to="/Creator">character creator page!</router-link></p>
+      <span>
+        <button v-on:click="roll(4)">D4</button>
+        <button v-on:click="roll(6)">D6</button>
+        <button v-on:click="roll(8)">D8</button>
+        <button v-on:click="roll(10)">D10</button>
+        <button v-on:click="roll(12)">D12</button>
+        <button v-on:click="roll(20)">D20</button>
+        <button v-on:click="roll(100)">D100</button>
+        <br />
+        <label>Custom Number: <input type="number" placeholder="Custom Number" min="2" v-model="customNumber"></label>
+        <button v-on:click="roll(customNumber)">{{ customNumber }}</button>
+      </span>
+
       <br />
-      <label>Custom Number: <input type="number" placeholder="Custom Number" min="2" v-model="customNumber"></label>
-      <button v-on:click="roll(customNumber)">{{ customNumber }}</button>
-    </span>
-    <br />
-    <label>Normal: <input type="radio"  checked v-model="rollType" value="normal"></label>
-    <br />
-    <label>Advantage: <input type="radio" id="advantage"  v-model="rollType" value="advantage"></label>
-    <br />
-    <label>Disadvantage: <input type="radio" id="disadvantage" v-model="rollType" value="disadvantage"></label>
+      <label>Normal: <input type="radio"  checked v-model="rollType" value="normal"></label>
+      <br />
+      <label>Advantage: <input type="radio" id="advantage"  v-model="rollType" value="advantage"></label>
+      <br />
+      <label>Disadvantage: <input type="radio" id="disadvantage" v-model="rollType" value="disadvantage"></label>
 
-    <!-- <label>Strength: <input type="radio" name="rollType"></label>
-    <label>Dexterity: <input type="radio" name="rollType"></label>
-    <label>Constitution: <input type="radio" name="rollType"></label>
-    <label>Intelligence: <input type="radio" name="rollType"></label>
-    <label>Wisdom: <input type="radio" name="rollType"></label>
-    <label>Charisma: <input type="radio" name="rollType"></label> -->
+      <br />
+      <label>Roll(s): <input type="number" v-model="times" min="1" max="15"></label>
+      <br />
+      <label>Modifier: <input type="number" v-model="modifier" min="-20" max="20"></label>
+      <br />
+      <span id="rolls"></span>
 
-    <br />
-    <label>Roll(s): <input type="number" v-model="times" min="1" max="15"></label>
-    <br />
-    <label>Modifier: <input type="number" v-model="modifier" min="-20" max="20"></label>
-    <br />
-    <span id="rolls"></span>
+      <!-- Most recent rolls -->
+      <ul class="rolls">
+        <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.strike}">
+          {{ roll.modRoll }} <!-- Final value -->
+        </li>
+      </ul>
 
-    <ul class="rolls">
-      <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.strike}">  
-        
+      <span>Total: {{ total }}</span>
+    </div>
+    <!-- All rolls -->
+    <div class="all-rolls section">
+      <button @click="clearAllRolls()">Clear Rolls</button>
+      <li v-for="roll in allRolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.strike}">
         {{ roll.modRoll }} <!-- Final value -->
-
       </li>
-
-    </ul>
-
-    <span>Total: {{ total }}</span>
+    </div>
     
   </div>
 </template>
@@ -66,6 +65,9 @@ export default {
     }
   },
   methods: {
+    clearAllRolls: function(){
+      this.allRolls = [];
+    },
     roll: function(dice){
       this.rolls = [];
       const rollDice = (multiplier) =>{
@@ -82,6 +84,9 @@ export default {
           };
           this.rolls.push(rollO);
         }
+        // this.allRolls.concact(this.rolls);
+        this.allRolls.push(this.rolls);
+        console.log(this.allRolls);        
       }
       //roll twice as many times if rolling on advantage or disadvantage
       this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1);
@@ -172,8 +177,6 @@ export default {
 body{
   background-image: url("../assets/parchment.jpg");
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  width: 50%;
-  margin: 0 auto;
 }
 h1, h2 {
   font-weight: normal;
@@ -201,4 +204,16 @@ li {
 .strike{
   text-decoration: line-through;
 }
+.section{
+  width: 50%;
+}
+.all-rolls{
+  background-color: gray;
+  width: 20%;
+}
+.all-rolls button{
+  display: block;
+  margin: 0 auto;
+}
+
 </style>
