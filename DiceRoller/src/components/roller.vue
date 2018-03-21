@@ -84,8 +84,8 @@ export default {
           };
           this.rolls.push(rollO);
         }
-        // this.allRolls.concact(this.rolls);
-        this.allRolls.push(this.rolls);
+        this.allRolls = this.allRolls.concat(this.rolls);
+        // this.allRolls.push(this.rolls);
         console.log(this.allRolls);        
       }
       //roll twice as many times if rolling on advantage or disadvantage
