@@ -85,12 +85,24 @@ export default {
       this.rolls = [];
       const rollDice = (multiplier) =>{
         for (let i = 0; i < this.times * multiplier; i++) {
-          this.createRoll(Math.floor(Math.random() * dice + 1), i, dice);
-          
+          // this.createRoll(Math.floor(Math.random() * dice + 1), i, dice);
+          let roll = parseInt(Math.floor(Math.random() * dice + 1));
+          let rollO = {
+            orgRoll: roll,
+            id: parseInt(i),
+            dice: parseInt(dice),
+            modRoll: parseInt(roll + parseInt(this.modifier)),
+            isNat1: false,
+            isNat20: false,
+            strike: false
+          };
+          this.rollObj = rollO;
+          this.rolls.push(this.rollObj); // replaces previously stored rollObj (closure issue?)
         }
       }
       //roll twice as many times if rolling on advantage or disadvantage
       this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1);
+      this.display();      
     },
     // Could move all of this up
     createRoll: function(roll, id, dice){ // needs finalized/cleaned up
@@ -105,22 +117,22 @@ export default {
         modRoll: parseInt(roll + parseInt(this.modifier))
       };
       this.rollObj = rollO;
-      // console.log(rollO);
-      // console.log(this.rollObj);
-      // console.log(this.rollObj.id);
       // this.rolls.push(this.rollObj.modRoll); //adding just the mod roll works
       this.rolls.push(this.rollObj); // replaces previously stored rollObj (closure issue?)
       this.display();            
     },
-    display: function(){ 
+    display: function(){
       //on a D20 make the span red for critical failures and green for critical success
       for(let i = 0; i < this.rolls.length; i++){
         let roll = this.rolls[i];
         if(roll.dice === 20 && roll.orgRoll === 1){
-          this.rollObj.isNat1 = true; // keep when refactored
+          roll.isNat1 = true;
+          console.log("Nat1", roll.isNat1);          
         }
         else if(roll.dice === 20 && roll.orgRoll === 20){
-          this.rollObj.isNat20 = true; // keep when refactored
+          roll.isNat20 = true;
+          console.log("Nat20", roll.isNat20);          
+          
         }
         else{ // returns color back to black
           roll.isNat1 = false; // keep when refactored
