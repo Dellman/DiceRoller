@@ -86,11 +86,11 @@ export default {
       const rollDice = (multiplier) =>{
         for (let i = 0; i < this.times * multiplier; i++) {
           this.createRoll(Math.floor(Math.random() * dice + 1), i, dice);
+          
         }
       }
       //roll twice as many times if rolling on advantage or disadvantage
       this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1);
-      this.createSpan();    
     },
     // Could move all of this up
     createRoll: function(roll, id, dice){ // needs finalized/cleaned up
@@ -110,61 +110,25 @@ export default {
       // console.log(this.rollObj.id);
       // this.rolls.push(this.rollObj.modRoll); //adding just the mod roll works
       this.rolls.push(this.rollObj); // replaces previously stored rollObj (closure issue?)
+      this.display();            
     },
-    createSpan: function(){ // will become unncessary
-      let rollSpan = document.getElementById('rolls');
-      let span = document.createElement("span");
-      span.className="roll-span";
-      span.id=this.rollObj.id;
-      span.style.padding = ".05em";
-      rollSpan.append(span);
-      this.display(span);
-    },
-    display: function(span){ // will become mostly unncessary/broken up
-      let colorSpan = document.createElement('span');
-
-      const addComma = () => {
-          if ((this.times > 1 && span.id < this.times - 1) || (this.rollType === "advantage" && span.id != this.times * 2 - 1) || this.rollType === "disadvantage" && span.id != this.times * 2 - 1) {
-            span.append(",");
-          }
-      }
+    display: function(){ 
       //on a D20 make the span red for critical failures and green for critical success
-      if(this.rollObj.orgRoll == 1 && this.rollObj.dice == 20){
-        colorSpan.style.color = "red";
-        this.rollObj.isNat1 = true; // keep when refactored
-        colorSpan.append(this.rollObj.modRoll);
-        span.append(colorSpan);
-        addComma();
-      }
-      else if(this.rollObj.orgRoll == 20 && this.rollObj.dice == 20){
-        colorSpan.style.color = "green";
-        this.rollObj.isNat20 = true; // keep when refactored
-        colorSpan.append(this.rollObj.modRoll);
-        span.append(colorSpan);
-        addComma();
-      }
-      else{ // returns color back to black
-        span.append(this.rollObj.modRoll);
-        this.rollObj.isNat1 = false; // keep when refactored
-        this.rollObj.isNat20 = false; // keep when refactored
-        addComma();
+      for(let i = 0; i < this.rolls.length; i++){
+        let roll = this.rolls[i];
+        if(roll.dice === 20 && roll.orgRoll === 1){
+          this.rollObj.isNat1 = true; // keep when refactored
+        }
+        else if(roll.dice === 20 && roll.orgRoll === 20){
+          this.rollObj.isNat20 = true; // keep when refactored
+        }
+        else{ // returns color back to black
+          roll.isNat1 = false; // keep when refactored
+          roll.isNat20 = false; // keep when refactored
+        }
       }
       if (this.rollType === "advantage" || this.rollType === "disadvantage") { // keep when refactored
         this.lineThrough();
-      }
-      this.addRolls(); // keep when refactored
-    },
-    addRolls: function(){ // add to computed when done?
-      this.total = 0;
-      if(this.times == 1){
-        // this.total = this.rolls.modRoll; // When the roll is an object
-        this.total = this.rollObj.modRoll;
-      }
-      else{
-        // should I keep this or use (and figure out) reduce with the object
-        for (let i = 0; i < this.rolls.length; i++) {
-          this.total += this.rolls[i].modRoll;
-        }
       }
     },
     lineThrough: function(){
@@ -174,7 +138,7 @@ export default {
       for(let i = 0; i < this.rolls.length; i += 2) {
         const roll = this.rolls[i];
         const nextRoll = this.rolls[i+1];
-        if(roll.modRoll < nextRoll.modRoll){
+        if(roll.modRoll < nextRoll.modRoll || roll.modRoll === nextRoll.modRoll){
           if(this.rollType === "advantage") {            
             roll.strike = true;   
           }
@@ -188,6 +152,22 @@ export default {
           }
           else if(this.rollType === "disadvantage"){
             roll.strike = true;
+          }
+        }
+      }
+      this.addRolls();
+    }, 
+    addRolls: function(){ // add to computed when done?
+      this.total = 0;
+      if(this.times === 1){
+        // this.total = this.rolls.modRoll; // When the roll is an object
+        this.total = this.rollObj.modRoll;
+      }
+      else{
+        // should I keep this or use (and figure out) reduce with the object
+        for (let i = 0; i < this.rolls.length; i++) {
+          if(this.rolls[i].strike === false){
+            this.total += this.rolls[i].modRoll;
           }
         }
       }
