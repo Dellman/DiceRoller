@@ -160,7 +160,6 @@ p{
   display: block;
   margin: .5em auto;
   text-align: left;
-  width: 50%;
 }
 thead{
   text-align: center;

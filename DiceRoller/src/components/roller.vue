@@ -3,14 +3,18 @@
     <h1>Dice Roller</h1>
     <p>Welcome to the dice roller! Here you can roll dice for whatever reason! Rolling on advantage means rolling twice and taking the higher value, while disadvantage means taking the lower value (the ignored value will have a strike-through). You can also roll multiple times by changing the roll number, and the modifier will be added to the original roll. A green number means a critical success when using the D20, while a red means a ciritcal failure. If you are looking to use this to simply create a character, check the <router-link to="/Creator">character creator page!</router-link></p>
     <span>
+      <!-- <button v-on:click="roll(3)">D3</button> -->
       <button v-on:click="roll(4)">D4</button>
-      <button v-on:click="roll(5)">D5</button>
+      <!-- <button v-on:click="roll(5)">D5</button> -->
       <button v-on:click="roll(6)">D6</button>
       <button v-on:click="roll(8)">D8</button>
       <button v-on:click="roll(10)">D10</button>
       <button v-on:click="roll(12)">D12</button>
       <button v-on:click="roll(20)">D20</button>
       <button v-on:click="roll(100)">D100</button>
+      <br />
+      <label>Custom Number: <input type="number" placeholder="Custom Number" min="2" v-model="customNumber"></label>
+      <button v-on:click="roll(customNumber)">{{ customNumber }}</button>
     </span>
     <br />
     <label>Normal: <input type="radio"  checked v-model="rollType" value="normal"></label>
@@ -33,7 +37,7 @@
     <br />
     <span id="rolls"></span>
 
-    <ul>
+    <ul class="rolls">
       <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.strike}">  
         
         {{ roll.modRoll }} <!-- Final value -->
@@ -56,7 +60,9 @@ export default {
       modifier: 0,
       rollType: "normal",
       rolls: [],
-      total: 0
+      allRolls: [],
+      total: 0,
+      customNumber: 2
     }
   },
   methods: {
@@ -166,6 +172,8 @@ export default {
 body{
   background-image: url("../assets/parchment.jpg");
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  width: 50%;
+  margin: 0 auto;
 }
 h1, h2 {
   font-weight: normal;
@@ -178,7 +186,9 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-
+.rolls li{
+  margin: 0 3px;
+}
 #rolls, #rolls ul li{
   display: inline;
 }
