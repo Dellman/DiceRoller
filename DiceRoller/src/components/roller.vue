@@ -34,7 +34,7 @@
     <span id="rolls"></span>
 
     <ul>
-      <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.lower}">  
+      <li v-for="roll in rolls" :key="roll.id" v-bind:class="{'nat1': roll.isNat1, 'nat20': roll.isNat20, 'strike': roll.strike}">  
         
         <!--{{ roll }}--> <!-- Whole object -->
         {{ roll.modRoll }} <!-- Final value -->
@@ -60,7 +60,7 @@ export default {
         modRoll: "",
         isNat1: false,
         isNat20: false,
-        lower: false,
+        strike: false,
       },  
       times: 1,
       modifier: 0,
@@ -89,7 +89,8 @@ export default {
         }
       }
       //roll twice as many times if rolling on advantage or disadvantage
-      this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1); 
+      this.rollType === "advantage" || this.rollType === "disadvantage" ? rollDice(2) : rollDice(1);
+      this.createSpan();    
     },
     // Could move all of this up
     createRoll: function(roll, id, dice){ // needs finalized/cleaned up
@@ -109,7 +110,6 @@ export default {
       // console.log(this.rollObj.id);
       // this.rolls.push(this.rollObj.modRoll); //adding just the mod roll works
       this.rolls.push(this.rollObj); // replaces previously stored rollObj (closure issue?)
-      this.createSpan();  
     },
     createSpan: function(){ // will become unncessary
       let rollSpan = document.getElementById('rolls');
@@ -161,65 +161,51 @@ export default {
         this.total = this.rollObj.modRoll;
       }
       else{
-        // should I keep this or use (and figure out) reduce with the object 
-        // currently adds the last roll which coincides with the main bug
-        // for (let i = 0; i < this.rolls.length; i++) {
-        //   this.total += this.rolls[i].modRoll;
-        // }
-
-        // sum up the objects in the array to get the sum value (doesn't work past two, )
-        // currently adds the last roll which coincides with the main bug        
-        // this.rolls.reduce((total, roll) => {
-        //   this.total = total.modRoll + roll.modRoll
-        // });
+        // should I keep this or use (and figure out) reduce with the object
+        for (let i = 0; i < this.rolls.length; i++) {
+          this.total += this.rolls[i].modRoll;
+        }
       }
-      
     },
     lineThrough: function(){
-      const strike = (id) =>{
-        let roll = document.getElementById(id);
-        let rollSpot = this.rolls[id];
-        // rollSpot.style.textDecoration = "line-through";
-        roll.style.textDecoration = "line-through";
-      }
-      // check every other value if it is larger than the next value
-      // if not, do a line through that value, otherwise put the line through the next number
-      // for (let i = 0; i < this.rolls.length; i += 2) {
-      //   if(this.rolls[i] < this.rolls[i + 1]){
-      //     if (this.rollType === "advantage") {            
-      //       strike(i);
-      //     }
-      //     else if(this.rollType === "disadvantage"){
-      //       strike(i + 1);
-      //     }
-      //   }
-      //   else if(this.rolls[i] > this.rolls[i + 1]){
-      //     if (this.rollType === "advantage") {
-      //       strike(i + 1);
-      //     }
-      //     else if(this.rollType === "disadvantage"){
-      //       strike(i);
-      //     }
-      //   }
-      // }
-      for(let i = 0; i < this.rolls.length; i += 2){
-        // console.log(this.rolls[i]);
-        // console.log(this.rolls[i+1]);
+      // loop through every other roll to see if it is lower or higher than the next number (based on rollType)
+      // make the strike property true for the lower value on advantage and the higher value on disadvantage
+      // Doesn't work due to called after each roll, not once all the rolls are calculated
+      for(let i = 0; i < this.rolls.length; i += 2) {
         const roll = this.rolls[i];
-        // const nextRoll = this.rolls[i+1];
-        if(this.rollType === "advantage"){
-          if(roll.modRoll < this.rolls[i+1].modRoll){
-            console.log("reached");
-            this.rolls[i].nat20 = true;
+        const nextRoll = this.rolls[i+1];
+        if(roll.modRoll < nextRoll.modRoll){
+          if(this.rollType === "advantage") {            
+            roll.strike = true;   
+          }
+          else if(this.rollType === "disadvantage"){
+            nextRoll.strike = true;
+          }
+        }
+        else if(roll.modRoll > nextRoll.modRoll){
+          if (this.rollType === "advantage") {
+            nextRoll.strike = true;
+          }
+          else if(this.rollType === "disadvantage"){
+            roll.strike = true;
           }
         }
       }
     }
   },
   computed: {
-    addRollsComp: function(){
-    //   console.log(...this.rolls.modRoll);
-    }
+    // addRolls: function(){
+    //   this.total = 0;
+    //   if(this.times == 1){
+    //     this.total = this.rollObj.modRoll;
+    //   }
+    //   else{
+    //     // should I keep this or use (and figure out) reduce with the object
+    //     for (let i = 0; i < this.rolls.length; i++) {
+    //       this.total += this.rolls[i].modRoll;
+    //     }
+    //   }
+    // }
   }
 }
 </script>
