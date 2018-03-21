@@ -93,12 +93,22 @@ export default {
     },
     // Could move all of this up
     createRoll: function(roll, id, dice){ // needs finalized/cleaned up
-      this.rollObj.orgRoll = parseInt(roll);
-      this.rollObj.id = parseInt(id);
-      this.rollObj.dice = parseInt(dice);
-      this.rollObj.modRoll = parseInt(roll + parseInt(this.modifier));
+      // this.rollObj.orgRoll = parseInt(roll);
+      // this.rollObj.id = parseInt(id);
+      // this.rollObj.dice = parseInt(dice);
+      // this.rollObj.modRoll = parseInt(roll + parseInt(this.modifier));
+      let rollO = {
+        orgRoll: parseInt(roll),
+        id: parseInt(id),
+        dice: parseInt(dice),
+        modRoll: parseInt(roll + parseInt(this.modifier))
+      };
+      this.rollObj = rollO;
+      // console.log(rollO);
+      // console.log(this.rollObj);
+      // console.log(this.rollObj.id);
       // this.rolls.push(this.rollObj.modRoll); //adding just the mod roll works
-      this.rolls.push(this.rollObj); // replaces previously stored rollObj 
+      this.rolls.push(this.rollObj); // replaces previously stored rollObj (closure issue?)
       this.createSpan();  
     },
     createSpan: function(){ // will become unncessary
