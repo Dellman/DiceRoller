@@ -96,8 +96,9 @@ export default {
             isNat20: false,
             strike: false
           };
-          this.rollObj = rollO;
-          this.rolls.push(this.rollObj); // replaces previously stored rollObj (closure issue?)
+          // this.rollObj = rollO;
+          // this.rolls.push(this.rollObj); // replaces previously stored rollObj (closure issue?)
+          this.rolls.push(rollO);
         }
       }
       //roll twice as many times if rolling on advantage or disadvantage
@@ -127,12 +128,9 @@ export default {
         let roll = this.rolls[i];
         if(roll.dice === 20 && roll.orgRoll === 1){
           roll.isNat1 = true;
-          console.log("Nat1", roll.isNat1);          
         }
         else if(roll.dice === 20 && roll.orgRoll === 20){
           roll.isNat20 = true;
-          console.log("Nat20", roll.isNat20);          
-          
         }
         else{ // returns color back to black
           roll.isNat1 = false; // keep when refactored
@@ -141,6 +139,9 @@ export default {
       }
       if (this.rollType === "advantage" || this.rollType === "disadvantage") { // keep when refactored
         this.lineThrough();
+      }
+      else{
+        this.addRolls();        
       }
     },
     lineThrough: function(){
@@ -172,8 +173,8 @@ export default {
     addRolls: function(){ // add to computed when done?
       this.total = 0;
       if(this.times === 1){
-        // this.total = this.rolls.modRoll; // When the roll is an object
-        this.total = this.rollObj.modRoll;
+        // this.total = this.rollObj.modRoll; // When the roll is an object
+        this.total = this.rolls[0].modRoll;
       }
       else{
         // should I keep this or use (and figure out) reduce with the object
@@ -205,6 +206,8 @@ export default {
 <style>
 body{
   background-image: url("../assets/parchment.jpg");
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  /* font-family:Georgia, 'Times New Roman', Times, serif   */
 }
 h1, h2 {
   font-weight: normal;
