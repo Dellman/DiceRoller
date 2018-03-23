@@ -201,7 +201,7 @@ li {
   margin: 0 10px;
 }
 .rolls li{
-  margin: 0 3px;
+  margin: 0 3px 0 0;
 }
 .nat1{
   color: red;
