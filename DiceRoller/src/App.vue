@@ -1,21 +1,15 @@
 <template>
   <div id="app">
-  <!-- <router-view/> -->
-  <!-- <h2>Test</h2> -->
-  <!-- <router-link to="/roller">Roller</router-link> -->
-  <!-- Nothing in here matters -->
+    <router-link :to="{name: 'Roller'}">Dice Roller</router-link>
+    <router-link :to="{name: 'Creator'}">Character Creator</router-link>
+    <router-link :to="{name: 'PointBuy'}">Point Buy</router-link>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import Roller from './components/roller';
-import Creator from './components/characterCreator';
-import PointBuy from './components/pointBuy';
 
 export default {
   name: 'app',
-  components: {
-    Roller, Creator, PointBuy
-  }
 }
 </script>
