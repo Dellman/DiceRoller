@@ -2,7 +2,7 @@
   <div class="main">
     <div class="interaction">
       <h1>Dice Roller</h1>
-      <p>Welcome to the dice roller! Here you can roll dice for whatever reason! Rolling on advantage means rolling twice and taking the higher value, while disadvantage means taking the lower value (the ignored value will have a strike-through). You can also roll multiple times by changing the roll number, and the modifier will be added to the original roll. A green number means a critical success when using the D20, while a red means a ciritcal failure. If you are looking to use this to simply create a character, check the <router-link to="/Creator">character creator page!</router-link></p>
+      <p>Welcome to the dice roller! Here you can roll dice for whatever reason! Rolling on advantage means rolling twice and taking the higher value, while disadvantage means taking the lower value (the ignored value will have a strike-through). You can also roll multiple times by changing the roll number, and the modifier will be added to each roll. A green number means a critical success when using the D20, while a red means a ciritcal failure. If you are looking to use this to create a character, check the <router-link to="/Creator">character creator page!</router-link></p>
       <span>
         <button v-on:click="roll(4)">D4</button>
         <button v-on:click="roll(6)">D6</button>
@@ -157,7 +157,6 @@ export default {
         }
       }
       this.rolls[0].total = this.total;
-      console.log(this.rolls[0].total);
     }
   },
   computed: {
